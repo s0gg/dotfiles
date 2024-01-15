@@ -113,7 +113,6 @@
 ;; Org
 (setq org-directory "~/OneDrive/org/")
 (setq org-tasks-dir (concat org-directory "tasks"))
-(setq org-journal-dir (concat org-directory "journal"))
 (setq org-agenda-start-on-weekday 0)
 (setq org-agenda-span 'day)
 (setq org-todo-keywords
@@ -135,8 +134,15 @@
   :ensure t
   :defer t
   :config
-  (setq org-journal-dir org-journal-dir)
-	org-journal-file-type 'weekly))
+  (defun org-journal-file-header-func (time)
+    "Custom function to create journal header."
+    (concat
+     (pcase org-journal-file-type
+       (`daily "#+TITLE: Daily Journal\n#+STARTUP: showeverithing")
+       (`weekly "#+TITLE: Weekly Journal\n#+STARTUP: folded"))))
+  (setq org-journal-dir (concat org-directory "journal/")
+	org-journal-file-type 'weekly
+	org-journal-file-header 'org-journal-file-header-func))
 
 (use-package org-roam)
 
@@ -150,6 +156,9 @@
   (setq vertico-count 20)
   (require 'savehist)
   (savehist-mode))
+
+(use-package all-the-icons
+  :if (display-graphic-p))
 
 (use-package emacs
   :elpaca nil
