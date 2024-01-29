@@ -3,6 +3,30 @@
 (scroll-bar-mode -1)
 (set-language-environment "UTF-8")
 
+(set-default-coding-systems 'utf-8-unix)
+(prefer-coding-system 'utf-8-unix)
+(set-selection-coding-system 'utf-8-unix)
+
+(set-buffer-file-coding-system 'utf-8-unix)
+(set-file-name-coding-system 'utf-8-unix)
+(set-terminal-coding-system 'utf-8-unix)
+(set-keyboard-coding-system 'utf-8-unix)
+(setq locale-coding-system 'utf-8-unix)
+(setq coding-system-for-read 'utf-8-unix)
+(setq coding-systme-for-write 'utf-8-unix)
+
+(setopt make-backup-files nil)
+(setopt backup-by-copying t)
+
+(setq-default show-trailing-whitespace t)
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)
+
+;; Scroll
+(setq scroll-conservatively 1)
+(setq scroll-margin 5)
+(setq scroll-preserve-screen-position t)
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -10,8 +34,11 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Cica" :foundry "nil" :slant normal :weight regular :height 140 :width normal)))))
 
-(setenv "PATH" (concat "/usr/local/opt/ruby/bin:" (getenv "PATH")))
-(setq exec-path (cons "/usr/local/opt/ruby/bin" exec-path))
+;; (setenv "PATH" (concat "/usr/local/opt/ruby/bin:" (getenv "PATH")))
+;; (setq exec-path (cons "/usr/local/opt/ruby/bin" exec-path))
+
+(load (expand-file-name "local.el" user-emacs-directory) t)
+(message my/foobar)
 
 (defvar elpaca-installer-version 0.6)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
@@ -49,7 +76,7 @@
     (load "./elpaca-autoloads")))
 ;; (add-hook 'after-init-hook #'elpaca-process-queues)
 (elpaca `(,@elpaca-order))
-
+(elpaca-no-symlink-mode)
 (setq elpaca-queue-limit 10)
 
 ;; Install use-package support
@@ -62,10 +89,6 @@
 ;; Block until current queue processed.
 (elpaca-wait)
 
-;;(use-package catppuccin-theme
-;;  :config
-;;  (load-theme 'catppuccin :no-confirm))
-
 (use-package doom-themes
   :ensure t
   :config
@@ -75,6 +98,7 @@
   (doom-themes-neotree-config)
   (doom-themes-org-config))
 
+(use-package nerd-icons)
 (use-package doom-modeline
   :ensure t
   :hook
@@ -95,11 +119,8 @@
 (use-package transient
   :elpaca (:host github :repo "magit/transient"))
 
-
 ;; Git
 (use-package magit)
-
-(use-package git-gutter)
 
 (use-package which-key
   :diminish which-key-mode
@@ -113,18 +134,27 @@
 ;; Org
 (setq org-directory "~/OneDrive/org/")
 (setq org-tasks-dir (concat org-directory "tasks"))
+(setq org-agenda-files '(
+			 "~/OneDrive/org/life.org"
+			 "~/OneDrive/org/tasks.org"
+			 "~/OneDrive/org/journal"
+			 ))
 (setq org-agenda-start-on-weekday 0)
-(setq org-agenda-span 'day)
 (setq org-todo-keywords
       '((sequence "INBOX" "TODAY" "THISWEEK" "PROJECT" "WAITING" "|" "SOMEDAY" "DONE")))
+(setq org-todo-keyword-faces
+      '(("TODAY" . (:foreground "pink" :weight bold))
+	("THISWEEK" . (:foreground "yellow"))))
 (setq org-log-done 'time)
+(define-key global-map "\C-ca" 'org-agenda)
 
 (use-package org-capture
   :elpaca nil
+  :bind (("C-c c" . org-capture))
   :config
   (setq org-capture-templates
 	`(("t" "Entry as Inbox" entry (file "~/OneDrive/org/tasks.org")
-	   "* INBOX %?\n  %i\n  %a"))))
+	   "* INBOX %? (wrote on %U)\n  %a"))))
 
 (use-package org-bullets
   :custom (org-bullets-bullet-list '("" "" "" "" "" "" "" "" "" ""))
@@ -133,6 +163,7 @@
 (use-package org-journal
   :ensure t
   :defer t
+  :bind (("C-c l j" . org-journal-new-entry))
   :config
   (defun org-journal-file-header-func (time)
     "Custom function to create journal header."
@@ -144,9 +175,64 @@
 	org-journal-file-type 'weekly
 	org-journal-file-header 'org-journal-file-header-func))
 
-(use-package org-roam)
+(use-package org-roam
+  :ensure t
+  :custom
+  (org-roam-directory (file-truename "~/OneDrive/org/roam"))
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+	 ("C-c n f" . org-roam-node-find)
+	 ("C-c n g" . org-roam-graph)
+	 ("C-c n i" . org-roam-node-insert)
+	 ("C-c n c" . org-roam-capture)
+	 ("C-c n j" . org-roam-dailies-capture-today))
+  :config
+  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  (org-roam-db-autosync-mode))
 
-(use-package org-super-agenda)
+(defun open-org-super-agenda()
+  "Open org-super-agenda"
+  (org-agenda nil "a"))
+
+(use-package org-super-agenda
+  :config
+  (setq org-agenda-custom-commands
+	       '(("d" "super view"
+		  ((agenda "" ((org-agenda-span 'day)
+			       (org-super-agenda-groups
+				'((:name "Today"
+					 :time-grid t
+					 ;;:date today
+					 ;;:todo "TODAY"
+					 ;;:schedules today
+					 :order 1)
+				  (:discard (:anything t))))))
+		   (alltodo "" ((org-agenda-overriding-header "")
+				(org-super-agenda-groups
+				 '((:name "Today todos"
+					  :todo "TODAY"
+					  :order 1)
+				   (:name "Due today"
+					  :deadline today
+					  :order 2)
+				   (:name "This week"
+					  :todo "THISWEEK"
+					  :order 3)
+				   (:name "Overdue"
+					  :deadline past
+					  :order 4)
+				   (:name "Due soon"
+					  :deadline future
+					  :order 5)
+				   (:name "Waiting"
+					  :todo "WAITING"
+					  :order 6)
+				   (:discard (:anything t)))))))))))
+
+
+;; for nano-agenda
+(use-package svg-lib)
+(use-package nano-agenda
+  :elpaca (:branch "rewrite"))
 
 (use-package vertico
   :init
@@ -371,6 +457,7 @@
   (setq lsp-keymap-prefix "C-c l")
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (ruby-mode . lsp-mode)
+         (ruby-mode . lsp)
          ;; if you want which-key integration
          (lsp-mode . lsp-enable-which-key-integration))
   :config
@@ -402,13 +489,10 @@
   (global-corfu-mode +1)
 
   :config
-  ;; java-mode などの一部のモードではタブに `c-indent-line-or-region` が割り当てられているので、
-  ;; 補完が出るように `indent-for-tab-command` に置き換える
   (defun my/corfu-remap-tab-command ()
     (global-set-key [remap c-indent-line-or-region] #'indent-for-tab-command))
   (add-hook 'java-mode-hook #'my/corfu-remap-tab-command)
 
-  ;; ミニバッファー上でverticoによる補完が行われない場合、corfuの補完が出るようにします。
   ;; https://github.com/minad/corfu#completing-in-the-minibuffer
   (defun corfu-enable-always-in-minibuffer ()
     "Enable Corfu in the minibuffer if Vertico/Mct are not active."
@@ -420,7 +504,6 @@
       (corfu-mode 1)))
   (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1)
 
-  ;; lsp-modeでcorfuが起動するように設定する
   (with-eval-after-load 'lsp-mode
     (setq lsp-completion-provider :none)))
 
@@ -439,13 +522,12 @@
                         (if capf
                             capf
                           (car completion-at-point-functions))
-                        #'tempel-complete ;; yasnippetの場合 (cape-company-to-capf #'company-yasnippet)
+                        #'tempel-complete
                         #'cape-dabbrev
                         #'cape-file)
                        :sort t
                        :exclusive 'no))))
 
-  ;; 入力毎に候補のキャッシュをクリアする
   (with-eval-after-load 'eglot
     (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
   (with-eval-after-load 'lsp-mode
@@ -503,13 +585,120 @@
   (setq elfeed-feeds
 	'("https://cprss.s3.amazonaws.com/rubyweekly.com.xml"
 	  "https://sachachua.com/blog/category/emacs-news/feed/"
-	  "https://this-week-in-rust.org/rss.xml")))
+	  "https://this-week-in-rust.org/rss.xml"
+	  "https://dotfyle.com/this-week-in-neovim/rss.xml"
+	  "https://www.publickey1.jp/atom.xml"
+	  "https://b.hatena.ne.jp/hotentry/it.rss"
+	  "https://news.yahoo.co.jp/rss/topics/domestic.xml"
+	  "https://news.yahoo.co.jp/rss/categories/world.xml"
+    "https://lwn.net/headlines/rss"
+	  "https://www.takeokunn.org/index.xml")))
 
-;; Rust
-(use-package rust-mode
+(use-package puni
+  :defer t
+  :init
+  (puni-global-mode)
+  (add-hook 'term-mode-hook #'puni-disable-puni-mode))
+
+(use-package nix-mode
   :ensure t
+  )
+
+(use-package markdown-mode
+  :ensure t
+  )
+
+(use-package web-mode
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
   :config
-  (setq rust-format-on-save t)
-  (add-hook 'rust-mode-hook #'lsp))
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  )
+
+ ;; we recommend using use-package to organize your init.el
+(use-package codeium
+    :elpaca (:host github :repo "Exafunction/codeium.el")
+    :init
+    ;; use globally
+    (add-to-list 'completion-at-point-functions #'codeium-completion-at-point)
+    ;; or on a hook
+    ;; (add-hook 'python-mode-hook
+    ;;     (lambda ()
+    ;;         (setq-local completion-at-point-functions '(codeium-completion-at-point))))
+
+    ;; if you want multiple completion backends, use cape (https://github.com/minad/cape):
+    ;; (add-hook 'python-mode-hook
+    ;;     (lambda ()
+    ;;         (setq-local completion-at-point-functions
+    ;;             (list (cape-super-capf #'codeium-completion-at-point #'lsp-completion-at-point)))))
+    ;; an async company-backend is coming soon!
+
+    ;; codeium-completion-at-point is autoloaded, but you can
+    ;; optionally set a timer, which might speed up things as the
+    ;; codeium local language server takes ~0.2s to start up
+    ;; (add-hook 'emacs-startup-hook
+    ;;  (lambda () (run-with-timer 0.1 nil #'codeium-init)))
+
+    ;; :defer t ;; lazy loading, if you want
+    :config
+    (setq use-dialog-box nil) ;; do not use popup boxes
+
+    ;; if you don't want to use customize to save the api-key
+    ;; (setq codeium/metadata/api_key "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx")
+
+    ;; get codeium status in the modeline
+    (setq codeium-mode-line-enable
+        (lambda (api) (not (memq api '(CancelRequest Heartbeat AcceptCompletion)))))
+    (add-to-list 'mode-line-format '(:eval (car-safe codeium-mode-line)) t)
+    ;; alternatively for a more extensive mode-line
+    ;; (add-to-list 'mode-line-format '(-50 "" codeium-mode-line) t)
+
+    ;; use M-x codeium-diagnose to see apis/fields that would be sent to the local language server
+    (setq codeium-api-enabled
+        (lambda (api)
+            (memq api '(GetCompletions Heartbeat CancelRequest GetAuthToken RegisterUser auth-redirect AcceptCompletion))))
+    ;; you can also set a config for a single buffer like this:
+    ;; (add-hook 'python-mode-hook
+    ;;     (lambda ()
+    ;;         (setq-local codeium/editor_options/tab_size 4)))
+
+    ;; You can overwrite all the codeium configs!
+    ;; for example, we recommend limiting the string sent to codeium for better performance
+    (defun my-codeium/document/text ()
+        (buffer-substring-no-properties (max (- (point) 3000) (point-min)) (min (+ (point) 1000) (point-max))))
+    ;; if you change the text, you should also change the cursor_offset
+    ;; warning: this is measured by UTF-8 encoded bytes
+    (defun my-codeium/document/cursor_offset ()
+        (codeium-utf8-byte-length
+            (buffer-substring-no-properties (max (- (point) 3000) (point-min)) (point))))
+    (setq codeium/document/text 'my-codeium/document/text)
+    (setq codeium/document/cursor_offset 'my-codeium/document/cursor_offset))
+
+(use-package git-gutter
+  :config
+  (global-git-gutter-mode +1))
+
+(use-package whitespace
+  :elpaca nil
+  :config
+  (setq whitespace-style '(face tabs spaces trailing line-trail newline empty indentation::space space-mark tab-mark newline-mark))
+  (global-whitespace-mode t)
+  (setq whitespace-display-mappings
+      '((space-mark 32 [183] [46])  ; 32 SPACE, 183 MIDDLE DOT, 46 FULL STOP.
+        (newline-mark 10 [182 10])  ; 10 LINE FEED.
+        (tab-mark 9 [9655 9] [92 9]))) ; 9 TAB, 9655 WHITE RIGHT-POINTING TRIANGLE.
+  (setq whitespace-space 'whitespace-space)
+  (setq whitespace-trailing 'whitespace-trailing)
+  (custom-set-faces
+   '(whitespace-space ((t (:foreground "#636363"))))
+   '(whitespace-trailing ((t (:background "#ff0000"))))
+   '(whitespace-tab ((t (:foreground "#444444" :underline t)))))
+  )
+
+;; (use-package tree-sitter)
+;; (use-package tree-sitter-langs)
 
 (elpaca-process-queues)

@@ -1,3 +1,2 @@
-auto-save-list/
-init.el~
-elpaca/
+*
+!init.el
