@@ -6,4 +6,5 @@ if status is-interactive
     fish_add_path /usr/local/opt/ruby/bin
     fish_add_path $HOME/.cargo/bin
     fish_add_path $HOME/.deno/bin
+    fish_add_path $HOME/.local/share/gem/ruby/3.3.0/bin
 end
