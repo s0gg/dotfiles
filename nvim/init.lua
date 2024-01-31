@@ -2,7 +2,6 @@ local opt = vim.opt
 opt.fileencoding = "utf-8"
 opt.swapfile = false
 opt.hidden = true
-opt.clipboard:append({ "unnamedplus" })
 opt.wildmenu = true
 opt.showcmd = true
 opt.hlsearch = true
