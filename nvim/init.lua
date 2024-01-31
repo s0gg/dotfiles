@@ -98,6 +98,7 @@ require("lazy").setup({
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    dependencies = { "nvim-orgmode/orgmode" },
     event = "VeryLazy",
     build = function()
       require("nvim-treesitter.install").update({ with_sync = true })()
@@ -105,10 +106,14 @@ require("lazy").setup({
     config = function()
       local config = require("nvim-treesitter.configs")
 
+      require("orgmode").setup_ts_grammar()
       config.setup({
         ensure_installed = { "lua" },
         sync_install = false,
-        highlight = { enable = true },
+        highlight = {
+          enable = true,
+          additional_vim_regex_highlighting = { "org" }
+        },
         incremental_selection = { enable = true },
         textobjects = { enable = true },
         autotag = { enable = true }
@@ -337,7 +342,17 @@ require("lazy").setup({
     config = function()
       require("Comment").setup()
     end
-  }
+  },
+  {
+    "nvim-orgmode/orgmode",
+    dependencies = {
+      { "nvim-treesitter/nvim-treesitter", lazy = true }
+    },
+    event = "VeryLazy",
+    config = function()
+      require('orgmode').setup({})
+    end
+}
 }, {
   defaults = { lazy = true },
   install = { colorscheme = { "tokyonight" } },
