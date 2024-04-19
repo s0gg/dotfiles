@@ -1,0 +1,1 @@
+-- s0gg's nvim config
