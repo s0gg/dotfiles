@@ -113,13 +113,29 @@ return {
         capabilities = capabilities
       })
       lspconfig.tsserver.setup({
-        capabilities = capabilities
+        capabilities = capabilities,
+        root_dir = lspconfig.util.root_pattern("package.json"),
+        single_file_support = false
       })
       lspconfig.clangd.setup({
         capabilities = capabilities
       })
       lspconfig.denols.setup({
-        capabilities = capabilities
+        capabilities = capabilities,
+        root_dir = lspconfig.util.root_pattern("deno.json"),
+        init_options = {
+          list = true,
+          unstable = true,
+          suggest = {
+            imports = {
+              hosts = {
+                ["https://deno.land"] = true,
+                ["https://cdn.nest.land"] = true,
+                ["https://crux.land"] = true
+              }
+            }
+          }
+        }
       })
 
       -- Global mappings.
