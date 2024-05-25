@@ -298,9 +298,11 @@ return {
     "Exafunction/codeium.vim",
     event = "BufEnter",
     config = function()
-      vim.keymap.set('i', '<C-g>', function () return vim.fn['codeium#Accept']() end, { expr = true, silent = true })
-      vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true, silent = true })
-      vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true, silent = true })
+      vim.keymap.set('i', '<C-g>', function() return vim.fn['codeium#Accept']() end, { expr = true, silent = true })
+      vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end,
+        { expr = true, silent = true })
+      vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end,
+        { expr = true, silent = true })
       vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true, silent = true })
     end
   },
@@ -397,10 +399,10 @@ return {
         }
       })
       vim.keymap.set('v', '<space>ff', function()
-        require('conform').conform({ async = true, lsp_fallback = true })
+        require('conform').format({ async = true, lsp_fallback = true })
       end)
-      vim.keymap.set('n', '<space>ff', function()
-        require('conform').conform({ async = true, lsp_fallback = true })
+      vim.keymap.set('n', '<space>cf', function()
+        require('conform').format({ async = true, lsp_fallback = true })
       end)
     end
   },
