@@ -9,7 +9,7 @@ config.use_fancy_tab_bar = false
 config.hide_tab_bar_if_only_one_tab = true
 
 config.font = wezterm.font_with_fallback { '0xProto', 'HackGen Console NF' }
-config.font_size = 12
+config.font_size = 10
 config.window_background_opacity = 0.9
 
 config.inactive_pane_hsb = {
