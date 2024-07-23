@@ -38,6 +38,8 @@
 (add-to-list 'package-archives '("gnu-elpa-devel" . "https://elpa.gnu.org/devel/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
+(package-initialize)
+
 (set-face-attribute 'default nil :font "HackGen Console NF" :height 120)
 
 (setq package-archive-priorities
@@ -58,12 +60,58 @@
   :config
   (load-theme 'catppuccin :no-confirm))
 
+(use-package magit
+  :ensure t
+  :bind (("C-x g" . magit-status)))
+
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
+
+(use-package fill-column-indicator
+  :ensure t
+  :config
+  (setq fci-rule-column 80
+        fci-rule-width 1
+        fci-rule-color "darkgray")
+  (add-hook 'prog-mode-hook 'fci-mode))
+
+(use-package doom-modeline
+  :ensure t
+  :custom
+  (doom-modeline-buffer-file-name-style 'truncate-with-project)
+  (doom-modeline-icon t)
+  (doom-modeline-major-mode-icon nil)
+  (doom-modeline-minor-modes nil)
+  :hook
+  (after-init . doom-modeline-mode)
+  :config
+  (line-number-mode 0)
+  (column-number-mode 0)
+  (doom-modeline-def-modeline 'main
+  '(bar workspace-number window-number evil-state god-state ryo-modal xah-fly-keys matches buffer-info remote-host buffer-position parrot selection-info)
+  '(misc-info persp-name lsp github debug minor-modes input-method major-mode process vcs checker)))
+
+(use-package org-bullets
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+(use-package hydra
+  :ensure t
+  :config
+  (defhydra hydra-zoom (global-map "<f2>")
+            "zoom"
+            ("g" text-scale-increase "in")
+            ("l" text-scale-decrease "out")))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(catppuccin-theme)))
+ '(package-selected-packages '(catppuccin-theme doom-modeline hydra org-bullets)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
