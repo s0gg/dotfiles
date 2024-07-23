@@ -25,3 +25,28 @@
 (setq scroll-conservatively 1)
 (setq scroll-margin 5)
 (setq scroll-preserve-screen-position t)
+
+(setq make-backup-files nil)
+(setq backup-inhibited nil)
+(setq create-lockfiles nil)
+
+(setq visible-bell nil)
+(setq ring-bell-function 'ignore)
+
+(require 'package)
+
+(add-to-list 'package-archives '("gnu-elpa-devel" . "https://elpa.gnu.org/devel/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+
+(setq package-archive-priorities
+      '(("gnu-elpa-devel" . 3)
+        ("melpa" . 2)
+        ("nongnu" . 1)))
+
+(setq package-install-upgrade-built-in t
+      package-native-compile t
+      )
+
+(use-package use-package
+  :config
+  (setq use-package-always-ensure t))
