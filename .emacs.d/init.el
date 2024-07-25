@@ -98,6 +98,26 @@
             ("g" text-scale-increase "in")
             ("l" text-scale-decrease "out")))
 
+(use-package vertico
+  :ensure t
+  :init
+  (vertico-mode))
+
+(use-package savehist
+  :ensure t
+  :init
+  (savehist-mode))
+
+(use-package emacs
+  :ensure t
+  :custom
+  (enable-recursive-minibuffers t)
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  :init
+  (setq minibuffer-prompt-properties
+        '(read-only t cursor-intangible t face minibuffer-prompt))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -105,7 +125,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    '(all-the-icons catppuccin-theme doom-modeline hydra org-agenda
-                   org-bullets)))
+                   org-bullets vertico)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
