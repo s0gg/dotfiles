@@ -35,6 +35,8 @@
 
 (setenv "GHQ_ROOT" (concat (getenv "HOME") "/.local/ghq"))
 (setq exec-path (append exec-path '((concat (getenv "HOME") "/go/bin"))))
+(setq rbenv-path (concat (getenv "HOME") "/.rbenv/shims"))
+(setq exec-path (append exec-path (list rbenv-path)))
 
 (require 'package)
 
@@ -127,7 +129,7 @@
 (use-package slime
   :ensure t
   :init
-  (setq inferior-lisp-program "sbcl"))
+  (setq inferior-lisp-program "ros run"))
 
 (use-package web-mode
   :mode (("\\.html?\\'" . web-mode))
@@ -251,6 +253,17 @@
 (use-package consult-ghq
   :ensure t)
 
+(use-package lsp-mode
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  (setq lsp-headerline-breadcrumb-enable nil)
+  :hook
+  ((ruby-mode . lsp)
+   (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
+
+(use-package lsp-ui :commands lsp-ui-mode)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -258,8 +271,8 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    '(all-the-icons catppuccin-theme consult consult-ghq doom-modeline
-                   hydra markdown-mode org-agenda org-bullets slime
-                   vertico web-mode)))
+                   hydra lsp-mode lsp-ui markdown-mode org-agenda
+                   org-bullets slime vertico web-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
