@@ -278,7 +278,8 @@
           "http://b.hatena.ne.jp/hotentry/it.rss"
           "https://news.ycombinator.com/rss"
           "https://qiita.com/popular-items/feed"
-          "https://zenn.dev/feed")))
+          "https://zenn.dev/feed"
+          "https://www.publickey1.jp/atom.xml")))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
