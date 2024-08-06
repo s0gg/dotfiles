@@ -279,7 +279,15 @@
           "https://news.ycombinator.com/rss"
           "https://qiita.com/popular-items/feed"
           "https://zenn.dev/feed"
-          "https://www.publickey1.jp/atom.xml")))
+          "https://www.publickey1.jp/atom.xml"
+          "https://mshibanami.github.io/GitHubTrendingRSS/daily/all.xml"
+          "https://mshibanami.github.io/GitHubTrendingRSS/daily/rust.xml"
+          "https://mshibanami.github.io/GitHubTrendingRSS/daily/common-lisp.xml"
+          "https://mshibanami.github.io/GitHubTrendingRSS/daily/ruby.xml"
+          "https://mshibanami.github.io/GitHubTrendingRSS/daily/c++.xml"
+          "https://mshibanami.github.io/GitHubTrendingRSS/daily/c.xml"
+          "https://mshibanami.github.io/GitHubTrendingRSS/daily/go.xml"
+          "https://mshibanami.github.io/GitHubTrendingRSS/daily/typescript.xml")))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
