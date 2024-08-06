@@ -264,6 +264,22 @@
 
 (use-package lsp-ui :commands lsp-ui-mode)
 
+(use-package elfeed
+  :ensure t
+  :init
+  (global-set-key (kbd "C-x c") 'elfeed)
+  :config
+  (setq elfeed-feeds
+        '("https://dotfyle.com/this-week-in-neovim/rss.xml"
+          "https://sachachua.com/blog/category/emacs-news/feed/index.xml"
+          "https://this-week-in-rust.org/rss.xml"
+          "https://cprss.s3.amazonaws.com/rubyweekly.com.xml"
+          "https://world.hey.com/this.week.in.rails/feed.atom"
+          "http://b.hatena.ne.jp/hotentry/it.rss"
+          "https://news.ycombinator.com/rss"
+          "https://qiita.com/popular-items/feed"
+          "https://zenn.dev/feed")))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -271,8 +287,8 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    '(all-the-icons catppuccin-theme consult consult-ghq doom-modeline
-                   hydra lsp-mode lsp-ui markdown-mode org-agenda
-                   org-bullets slime vertico web-mode)))
+                   elfeed hydra lsp-mode lsp-ui markdown-mode
+                   org-agenda org-bullets slime vertico web-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
