@@ -90,6 +90,11 @@
         fci-rule-color "darkgray")
   (add-hook 'prog-mode-hook 'fci-mode))
 
+(use-package org-capture
+  :ensure nil
+  :init
+  (global-set-key (kbd "C-c c") 'org-capture))
+
 (use-package org-bullets
   :ensure t
   :config
