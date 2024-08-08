@@ -299,16 +299,22 @@
   :config
   (global-set-key (kbd "C-:") 'avy-goto-char))
 
+(use-package ace-window
+  :ensure t
+  :config
+  (global-set-key (kbd "M-o") 'ace-window)
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(all-the-icons avy catppuccin-theme consult consult-ghq doom-modeline
-                   elfeed hydra lsp-mode lsp-ui markdown-mode
-                   org-agenda org-bullets org-roam slime vertico
-                   web-mode)))
+   '(ace-window all-the-icons avy catppuccin-theme consult consult-ghq
+                doom-modeline elfeed hydra lsp-mode lsp-ui
+                markdown-mode org-agenda org-bullets org-roam slime
+                vertico web-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
