@@ -47,11 +47,6 @@
 
 (set-face-attribute 'default nil :font "HackGen Console NF" :height 100)
 
-;; org-mode
-(global-set-key "\C-ca" 'org-agenda)
-(setq org-directory "~/org"
-      org-agenda-files '("~/org/idea.org" "~/org/tasks.org" "~/org/target.org"))
-
 (setq package-archive-priorities
       '(("gnu-elpa-devel" . 3)
         ("melpa" . 2)
@@ -293,6 +288,18 @@
           "https://mshibanami.github.io/GitHubTrendingRSS/daily/c.xml"
           "https://mshibanami.github.io/GitHubTrendingRSS/daily/go.xml"
           "https://mshibanami.github.io/GitHubTrendingRSS/daily/typescript.xml")))
+
+(use-package org
+  :ensure nil
+  :init
+  (global-set-key "\C-ca" 'org-agenda)
+  (setq org-directory "~/org"
+        org-agenda-files '(
+                           (concat org-directory "/idea.org")
+                           (concat org-directory "/tasks.org")
+                           (concat org-directory "/target.org"))
+        org-startup-indented t))
+
 
 (use-package org-roam
   :ensure t
