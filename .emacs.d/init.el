@@ -34,7 +34,7 @@
 (setq ring-bell-function 'ignore)
 
 (setenv "GHQ_ROOT" (concat (getenv "HOME") "/.local/ghq"))
-(setq exec-path (append exec-path '((concat (getenv "HOME") "/go/bin"))))
+(setq exec-path (append exec-path (list (concat (getenv "HOME") "/go/bin"))))
 (setq rbenv-path (concat (getenv "HOME") "/.rbenv/shims"))
 (setq exec-path (append exec-path (list rbenv-path)))
 
@@ -49,7 +49,7 @@
 
 ;; org-mode
 (global-set-key "\C-ca" 'org-agenda)
-(setq org-directory "~/org/"
+(setq org-directory "~/org"
       org-agenda-files '("~/org/idea.org" "~/org/tasks.org" "~/org/target.org"))
 
 (setq package-archive-priorities
@@ -289,6 +289,11 @@
           "https://mshibanami.github.io/GitHubTrendingRSS/daily/go.xml"
           "https://mshibanami.github.io/GitHubTrendingRSS/daily/typescript.xml")))
 
+(use-package org-roam
+  :ensure t
+  :config
+  (setq org-roam-directory (file-truename (concat org-directory "/roam"))))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -297,7 +302,8 @@
  '(package-selected-packages
    '(all-the-icons catppuccin-theme consult consult-ghq doom-modeline
                    elfeed hydra lsp-mode lsp-ui markdown-mode
-                   org-agenda org-bullets slime vertico web-mode)))
+                   org-agenda org-bullets org-roam slime vertico
+                   web-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
