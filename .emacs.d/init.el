@@ -103,6 +103,12 @@
             ("g" text-scale-increase "in")
             ("l" text-scale-decrease "out")))
 
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
 (use-package vertico
   :ensure t
   :init
@@ -250,8 +256,7 @@
   ;; (keymap-set consult-narrow-map (concat consult-narrow-key " ?") #'consult-narrow-help)
   )
 
-(use-package consult-ghq
-  :ensure t)
+(use-package consult-ghq :ensure t)
 
 (use-package lsp-mode
   :init
@@ -325,8 +330,8 @@
  '(package-selected-packages
    '(ace-window all-the-icons avy catppuccin-theme consult consult-ghq
                 doom-modeline elfeed hydra lsp-mode lsp-ui
-                markdown-mode org-agenda org-bullets org-roam slime
-                vertico web-mode)))
+                markdown-mode orderless org-agenda org-bullets
+                org-roam slime vertico web-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
