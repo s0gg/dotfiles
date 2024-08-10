@@ -118,6 +118,9 @@ return {
         single_file_support = false
       })
       lspconfig.clangd.setup({
+        init_options = {
+          fallbackFlags = { "-std=c++20" }
+        },
         capabilities = capabilities
       })
       lspconfig.denols.setup({
