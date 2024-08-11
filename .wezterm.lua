@@ -17,7 +17,7 @@ config.inactive_pane_hsb = {
   brightness = 0.8
 }
 
-config.leader = { key = 'q', mods = 'CTRL', timeout_milliseconds = 1000 }
+config.leader = { key = 's', mods = 'CTRL', timeout_milliseconds = 1000 }
 config.keys = {
   {
     key = '\\',
