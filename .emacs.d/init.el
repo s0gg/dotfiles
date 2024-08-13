@@ -299,7 +299,7 @@
   :init
   (global-set-key "\C-ca" 'org-agenda)
   (setq org-directory "~/org"
-        org-agenda-files '(
+        org-agenda-files (list 
                            (concat org-directory "/idea.org")
                            (concat org-directory "/tasks.org")
                            (concat org-directory "/target.org"))
