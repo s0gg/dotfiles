@@ -331,8 +331,29 @@
   :ensure t
   :init
   (add-to-list 'auto-mode-alist '("\\.ts" . typescript-ts-mode))
+  :hook
+  ((typescript-ts-mode . lsp))
   :config
   (setq typescript-indent-level 2))
+
+(use-package corfu
+  :ensure t
+  :init
+  (global-corfu-mode)
+  (corfu-popupinfo-mode +1)
+  :config
+  (setq corfu-auto t
+        corfu-quit-no-match 'separator)
+  (setq global-corfu-minibuffer
+        (lambda ()
+          (not (or (bound-and-true-p mct--active)
+                   (bound-and-true-p vertico--input)
+                   (eq (current-local-map) read-passwd-map))))))
+
+(use-package corfu-popupinfo
+  :ensure nil
+  :after corfu
+  :hook (corfu-mode . corfu-popupinfo-mode))
 
 (use-package git-gutter
   :ensure t
@@ -346,8 +367,8 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    '(ace-window all-the-icons avy catppuccin-theme consult consult-ghq
-                doom-modeline elfeed git-gutter hydra lsp-mode lsp-ui
-                markdown-mode orderless org-agenda org-bullets
+                corfu doom-modeline elfeed git-gutter hydra lsp-mode
+                lsp-ui markdown-mode orderless org-agenda org-bullets
                 org-roam slime typescript typescript-mode vertico
                 web-mode)))
 (custom-set-faces
