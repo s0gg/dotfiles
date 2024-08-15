@@ -334,6 +334,11 @@
   :config
   (setq typescript-indent-level 2))
 
+(use-package git-gutter
+  :ensure t
+  :init
+  (global-git-gutter-mode +1))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -341,7 +346,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    '(ace-window all-the-icons avy catppuccin-theme consult consult-ghq
-                doom-modeline elfeed hydra lsp-mode lsp-ui
+                doom-modeline elfeed git-gutter hydra lsp-mode lsp-ui
                 markdown-mode orderless org-agenda org-bullets
                 org-roam slime typescript typescript-mode vertico
                 web-mode)))
