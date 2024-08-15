@@ -47,6 +47,11 @@
 
 (set-face-attribute 'default nil :font "HackGen Console NF" :height 100)
 
+(add-hook 'js-mode-hook
+          (lambda ()
+            (make-local-variable 'js-indent-level)
+            (setq js-indent-level 2)))
+
 (setq package-archive-priorities
       '(("gnu-elpa-devel" . 3)
         ("melpa" . 2)
@@ -322,6 +327,13 @@
   (global-set-key (kbd "M-o") 'ace-window)
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
+(use-package typescript-mode
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.ts" . typescript-ts-mode))
+  :config
+  (setq typescript-indent-level 2))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -331,7 +343,8 @@
    '(ace-window all-the-icons avy catppuccin-theme consult consult-ghq
                 doom-modeline elfeed hydra lsp-mode lsp-ui
                 markdown-mode orderless org-agenda org-bullets
-                org-roam slime vertico web-mode)))
+                org-roam slime typescript typescript-mode vertico
+                web-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
