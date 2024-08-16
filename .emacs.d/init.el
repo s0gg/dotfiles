@@ -360,6 +360,17 @@
   :init
   (global-git-gutter-mode +1))
 
+(use-package tree-sitter
+  :ensure t
+  :config
+  (global-tree-sitter-mode))
+(use-package tree-sitter-langs :ensure t)
+(use-package treesit-auto
+  :ensure t
+  :config
+  (setq treesit-auto-install t)
+  (global-treesit-auto-mode))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -369,7 +380,8 @@
    '(ace-window all-the-icons avy catppuccin-theme consult consult-ghq
                 corfu doom-modeline elfeed git-gutter hydra lsp-mode
                 lsp-ui markdown-mode orderless org-agenda org-bullets
-                org-roam slime typescript typescript-mode vertico
+                org-roam slime tree-sitter tree-sitter-langs
+                treesit-auto typescript typescript-mode vertico
                 web-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
