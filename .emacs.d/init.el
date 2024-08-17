@@ -71,6 +71,7 @@
 (use-package catppuccin-theme
   :ensure t
   :config
+  (setq catppuccin-enlarge-headings nil)
   (load-theme 'catppuccin :no-confirm))
 
 (use-package magit
