@@ -15,6 +15,9 @@
 (setq coding-system-for-read 'utf-8-unix)
 (setq coding-systme-for-write 'utf-8-unix)
 
+(add-to-list 'default-frame-alist '(font . "0xProto-14"))
+(set-fontset-font "fontset-default" 'unicode "HackGen Console NF")
+
 (setopt make-backup-files nil)
 (setopt backup-by-copying t)
 
