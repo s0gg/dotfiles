@@ -97,7 +97,18 @@
 (use-package org-capture
   :ensure nil
   :init
-  (global-set-key (kbd "C-c c") 'org-capture))
+  (global-set-key (kbd "C-c c") 'org-capture)
+  :config
+  (setq org-capture-templates
+      '(("t" "Todo entry" entry (file "~/org/todo.org")
+         "* TODO %?\n    :LOGBOOK:\n    - Added: %U\n    :END:" :empty-lines 1)
+        ("p" "Plan entry" entry (file+datetree "~/org/plan.org")
+         "- [ ] %?")
+        ("j" "Journal entry" entry (file+datetree "~/org/journal.org")
+         "* 週次レビュー\n- good:%?\n- bad:\n- try:\n")
+        ("r" "Review entry" entry (file+datetree "~/org/review.org") (file "~/org/review-template.org"))
+        )
+      ))
 
 (use-package org-bullets
   :ensure t
@@ -308,10 +319,8 @@
   :init
   (global-set-key "\C-ca" 'org-agenda)
   (setq org-directory "~/org"
-        org-agenda-files (list 
-                           (concat org-directory "/idea.org")
-                           (concat org-directory "/tasks.org")
-                           (concat org-directory "/target.org"))
+        org-todo-keywords '((sequence "INBOX" "TODO" "|" "DONE" "CANCELED"))
+        org-agenda-files (list (expand-file-name org-directory))
         org-startup-indented t))
 
 
@@ -319,6 +328,9 @@
   :ensure t
   :config
   (setq org-roam-directory (file-truename (concat org-directory "/roam"))))
+
+(use-package org-super-agenda
+  :ensure t)
 
 (use-package avy
   :ensure t
