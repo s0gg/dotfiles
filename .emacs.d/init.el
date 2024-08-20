@@ -377,6 +377,10 @@
   :init
   (global-git-gutter-mode +1))
 
+(use-package nix-mode
+  :ensure t
+  :mode "\\.nix\\'")
+
 (use-package tree-sitter
   :ensure t
   :config
