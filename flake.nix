@@ -7,6 +7,13 @@
 
   outputs = { self, nixpkgs }: {
 
+    packages.x86_64-linux.my-packages = nixpkgs.legacyPackages.x86_64-linux.buildEnv {
+      name = "my-package-list";
+      paths = [
+        nixpkgs.legacyPackages.x86_64-linux.gleam
+      ];
+    };
+
     packages.x86_64-linux.hello = nixpkgs.legacyPackages.x86_64-linux.hello;
 
     packages.x86_64-linux.default = self.packages.x86_64-linux.hello;
