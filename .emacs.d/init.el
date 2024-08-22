@@ -393,18 +393,20 @@
   (setq treesit-auto-install t)
   (global-treesit-auto-mode))
 
+(use-package gleam-ts-mode
+  :load-path "~/.local/ghq/github.com/gleam-lang/gleam-mode")
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(ace-window all-the-icons avy catppuccin-theme consult consult-ghq
-                corfu doom-modeline elfeed git-gutter hydra lsp-mode
-                lsp-ui markdown-mode orderless org-agenda org-bullets
-                org-roam slime tree-sitter tree-sitter-langs
-                treesit-auto typescript typescript-mode vertico
-                web-mode)))
+   '(ace-window all-the-icons catppuccin-theme consult-ghq corfu
+                doom-modeline elfeed fill-column-indicator git-gutter
+                hydra lsp-ui magit nix-mode orderless org-bullets
+                org-roam org-super-agenda slime tree-sitter-langs
+                treesit-auto typescript-mode vertico web-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
