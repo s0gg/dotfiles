@@ -101,7 +101,7 @@
   :config
   (setq org-capture-templates
       '(("t" "Todo entry" entry (file "~/org/todo.org")
-         "* TODO %?\n    :LOGBOOK:\n    - Added: %U\n    :END:" :empty-lines 1)
+         "* TODO %?\n:LOGBOOK:\n- Added: %U\n:END:")
         ("p" "Plan entry" entry (file+datetree "~/org/plan.org")
          "- [ ] %?")
         ("j" "Journal entry" entry (file+datetree "~/org/journal.org")
