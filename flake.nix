@@ -12,6 +12,9 @@
       paths = [
         nixpkgs.legacyPackages.x86_64-linux.gleam
         nixpkgs.legacyPackages.x86_64-linux.eza
+
+        nixpkgs.legacyPackages.x86_64-linux.nmap
+        nixpkgs.legacyPackages.x86_64-linux.gobuster
       ];
     };
 
