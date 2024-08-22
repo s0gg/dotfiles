@@ -313,7 +313,8 @@
           "https://mshibanami.github.io/GitHubTrendingRSS/daily/c.xml"
           "https://mshibanami.github.io/GitHubTrendingRSS/daily/go.xml"
           "https://mshibanami.github.io/GitHubTrendingRSS/daily/typescript.xml"
-          "https://rss.slashdot.org/Slashdot/slashdotMain")))
+          "https://rss.slashdot.org/Slashdot/slashdotMain"
+          "http://feeds.feedburner.com/blogspot/RLXA.xml")))
 
 (use-package org
   :ensure nil
