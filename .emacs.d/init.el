@@ -1,3 +1,8 @@
+(load "custom.el")
+
+(if (file-readable-p "custom.el")
+    (load "custom.el"))
+
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -105,7 +110,7 @@
         ("p" "Plan entry" entry (file+datetree "~/org/plan.org")
          "- [ ] %?")
         ("j" "Journal entry" entry (file+datetree "~/org/journal.org")
-         "* 週次レビュー\n- good:%?\n- bad:\n- try:\n")
+         "* weekly review\n- good:%?\n- bad:\n- try:\n")
         ("r" "Review entry" entry (file+datetree "~/org/review.org") (file "~/org/review-template.org"))
         )
       ))
@@ -170,11 +175,8 @@
         web-mode-enable-auto-pairing t
         web-mode-enable-auto-indentation t))
 
-;; Example configuration for Consult
 (use-package consult
-  ;; Replace bindings. Lazily loaded by `use-package'.
-  :bind (;; C-c bindings in `mode-specific-map'
-         ("C-c M-x" . consult-mode-command)
+  :bind (("C-c M-x" . consult-mode-command)
          ("C-c h" . consult-history)
          ("C-c k" . consult-kmacro)
          ("C-c m" . consult-man)
@@ -182,7 +184,7 @@
          ([remap Info-search] . consult-info)
          ;; C-x bindings in `ctl-x-map'
          ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
-         ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
+         ;;("C-x b" . consult-buffer)
          ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
          ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
          ("C-x t b" . consult-buffer-other-tab)    ;; orig. switch-to-buffer-other-tab
@@ -276,7 +278,10 @@
   ;; (keymap-set consult-narrow-map (concat consult-narrow-key " ?") #'consult-narrow-help)
   )
 
-(use-package consult-ghq :ensure t)
+(use-package consult-ghq
+  :ensure t
+  :bind
+  ("C-c g f" . consult-ghq-find))
 
 (use-package lsp-mode
   :init
@@ -287,7 +292,9 @@
    (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
 
-(use-package lsp-ui :commands lsp-ui-mode)
+(use-package lsp-ui
+  :commands lsp-ui-mode
+  :ensure t)
 
 (use-package elfeed
   :ensure t
@@ -323,7 +330,11 @@
   (setq org-directory "~/org"
         org-todo-keywords '((sequence "INBOX" "TODO" "|" "DONE" "CANCELED"))
         org-agenda-files (list (expand-file-name org-directory))
-        org-startup-indented t))
+        org-startup-indented t)
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t)
+     (emacs-lisp . t))))
 
 
 (use-package org-roam
@@ -396,17 +407,36 @@
 (use-package gleam-ts-mode
   :load-path "~/.local/ghq/github.com/gleam-lang/gleam-mode")
 
+(use-package flycheck
+  :ensure t)
+
+(use-package yasnippet
+  :ensure t
+  :config (yas-global-mode))
+
+(use-package helm-lsp
+  :ensure t)
+
+(use-package helm
+  :ensure t
+  :config (helm-mode))
+
+(use-package lsp-treemacs
+  :ensure t)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(ace-window all-the-icons catppuccin-theme consult-ghq corfu
-                doom-modeline elfeed fill-column-indicator git-gutter
-                hydra lsp-ui magit nix-mode orderless org-bullets
-                org-roam org-super-agenda slime tree-sitter-langs
-                treesit-auto typescript-mode vertico web-mode)))
+   '(ace-window all-the-icons catppuccin-theme consult-ghq corfu ddskk
+                doom-modeline elfeed emacs-reveal
+                fill-column-indicator flycheck git-gutter helm-lsp
+                hydra lsp-treemacs lsp-ui magit nix-mode orderless
+                org-bullets org-re-reveal org-ref org-roam
+                org-super-agenda slime tree-sitter-langs treesit-auto
+                typescript-mode vertico web-mode yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
