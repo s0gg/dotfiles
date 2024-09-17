@@ -1,3 +1,5 @@
+;; -*- lexical-bingding: t -*-
+
 (load "custom.el")
 
 (if (file-readable-p "custom.el")
@@ -43,6 +45,7 @@
 
 (setenv "GHQ_ROOT" (concat (getenv "HOME") "/.local/ghq"))
 (setq exec-path (append exec-path (list (concat (getenv "HOME") "/go/bin"))))
+(setq exec-path (append exec-path (list (concat (getenv "HOME") "/.deno/bin"))))
 (setq rbenv-path (concat (getenv "HOME") "/.rbenv/shims"))
 (setq exec-path (append exec-path (list rbenv-path)))
 
@@ -174,6 +177,11 @@
         web-mode-enable-auto-opening t
         web-mode-enable-auto-pairing t
         web-mode-enable-auto-indentation t))
+
+(use-package affe
+  :ensure t
+  :config
+  (consult-customize affe-grep :preview-key "M-."))
 
 (use-package consult
   :bind (("C-c M-x" . consult-mode-command)
@@ -360,8 +368,8 @@
   :ensure t
   :init
   (add-to-list 'auto-mode-alist '("\\.ts" . typescript-ts-mode))
-  :hook
-  ((typescript-ts-mode . lsp))
+  ;;:hook
+  ;; ((typescript-ts-mode . lsp))
   :config
   (setq typescript-indent-level 2))
 
@@ -396,7 +404,9 @@
 (use-package tree-sitter
   :ensure t
   :config
-  (global-tree-sitter-mode))
+  (require 'tree-sitter-langs)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 (use-package tree-sitter-langs :ensure t)
 (use-package treesit-auto
   :ensure t
@@ -414,29 +424,31 @@
   :ensure t
   :config (yas-global-mode))
 
-(use-package helm-lsp
-  :ensure t)
-
-(use-package helm
-  :ensure t
-  :config (helm-mode))
-
 (use-package lsp-treemacs
   :ensure t)
+
+(use-package rust-mode
+  :ensure t
+  :init
+  (setq rust-mode-treesitter-derive t)
+  :config
+  (add-hook 'rust-mode-hook #'lsp))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ignored-local-variable-values '((lsp-enabled-clients deno-ls)))
  '(package-selected-packages
-   '(ace-window all-the-icons catppuccin-theme consult-ghq corfu ddskk
-                doom-modeline elfeed emacs-reveal
+   '(ace-window affe all-the-icons catppuccin-theme consult-ghq corfu
+                ddskk doom-modeline elfeed emacs-reveal
                 fill-column-indicator flycheck git-gutter helm-lsp
                 hydra lsp-treemacs lsp-ui magit nix-mode orderless
                 org-bullets org-re-reveal org-ref org-roam
-                org-super-agenda slime tree-sitter-langs treesit-auto
-                typescript-mode vertico web-mode yasnippet)))
+                org-super-agenda rust-mode slime tree-sitter-langs
+                treesit-auto typescript-mode vertico web-mode
+                yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
