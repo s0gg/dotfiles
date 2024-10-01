@@ -72,7 +72,8 @@ return {
         highlight = { enable = true },
         incremental_selection = { enable = true },
         textobjects = { enable = true },
-        autotag = { enable = true }
+        autotag = { enable = true },
+        ignore_install = { 'org' }
       })
 
       local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
@@ -419,6 +420,20 @@ return {
     config = function()
       require('dmacro').setup({
         dmacro_key = '<C-t>'
+      })
+    end
+  },
+  {
+    'nvim-orgmode/orgmode',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter'
+    },
+    event = 'VeryLazy',
+    ft = { 'org' },
+    config = function()
+      require('orgmode').setup({
+        org_agenda_files = '',
+        org_default_notes_file = ''
       })
     end
   }
