@@ -183,6 +183,18 @@ return {
     end
   },
   {
+    'nvimdev/lspsaga.nvim',
+    event = 'VeryLazy',
+    after = { 'neovim/nvim-lspconfig' },
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      'nvim-tree/nvim-web-devicons'
+    },
+    config = function()
+      require('lspsaga').setup({})
+    end,
+  },
+  {
     "lewis6991/gitsigns.nvim",
     event = "VeryLazy",
     config = function()
