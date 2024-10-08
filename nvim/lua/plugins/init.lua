@@ -448,5 +448,9 @@ return {
         org_default_notes_file = ''
       })
     end
+  },
+  {
+    'thinca/vim-qfreplace',
+    event = 'VeryLazy'
   }
 }
