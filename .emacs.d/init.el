@@ -414,8 +414,8 @@
   (setq treesit-auto-install t)
   (global-treesit-auto-mode))
 
-(use-package gleam-ts-mode
-  :load-path "~/.local/ghq/github.com/gleam-lang/gleam-mode")
+;; (use-package gleam-ts-mode
+;;   :load-path "~/.local/ghq/github.com/gleam-lang/gleam-mode")
 
 (use-package flycheck
   :ensure t)
