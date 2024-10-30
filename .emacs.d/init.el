@@ -318,6 +318,23 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
+(use-package prescient
+  :ensure t
+  :config
+  (prescient-persist-mode +1))
+
+(use-package corfu-prescient
+  :ensure t
+  :after (corfu prescient)
+  :config
+  (corfu-prescient-mode +1))
+
+(use-package vertico-prescient
+  :ensure t
+  :after (vertico prescient)
+  :config
+  (vertico-prescient-mode +1))
+
 (use-package vterm
   :ensure t)
 
@@ -492,13 +509,14 @@
  '(ignored-local-variable-values '((lsp-enabled-clients deno-ls)))
  '(package-selected-packages
    '(ace-window affe all-the-icons catppuccin-theme consult-ghq corfu
-                ddskk doom-modeline elfeed emacs-reveal embark
-                embark-consult expand-region fill-column-indicator
-                flycheck git-gutter helm-lsp hydra lsp-treemacs lsp-ui
-                magit marginalia nix-mode orderless org-bullets
-                org-re-reveal org-ref org-roam org-super-agenda
-                rust-mode slime tree-sitter-langs treesit-auto
-                typescript-mode vertico vterm web-mode yasnippet)))
+                corfu-prescient ddskk doom-modeline elfeed
+                emacs-reveal embark embark-consult expand-region
+                fill-column-indicator flycheck git-gutter helm-lsp
+                hydra lsp-treemacs lsp-ui magit marginalia nix-mode
+                orderless org-bullets org-re-reveal org-ref org-roam
+                org-super-agenda prescient rust-mode slime
+                tree-sitter-langs treesit-auto typescript-mode vertico
+                vertico-prescient vterm web-mode yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
