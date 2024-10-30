@@ -466,6 +466,11 @@
   :ensure t
   :mode "\\.nix\\'")
 
+(use-package indent-bars
+  :ensure t
+  :config
+  (indent-bars-mode +1))
+
 (use-package tree-sitter
   :ensure t
   :config
@@ -524,12 +529,12 @@
    '(ace-window affe all-the-icons cape catppuccin-theme consult-ghq
                 corfu ddskk doom-modeline elfeed emacs-reveal embark
                 embark-consult expand-region fill-column-indicator
-                flycheck git-gutter helm-lsp hydra lsp-treemacs lsp-ui
-                magit marginalia nerd-icons-corfu nix-mode orderless
-                org-bullets org-re-reveal org-ref org-roam
-                org-super-agenda rust-mode slime tree-sitter-langs
-                treesit-auto typescript-mode vertico vterm web-mode
-                yasnippet)))
+                flycheck git-gutter helm-lsp hydra indent-bars
+                lsp-treemacs lsp-ui magit marginalia nerd-icons-corfu
+                nix-mode orderless org-bullets org-re-reveal org-ref
+                org-roam org-super-agenda rust-mode slime
+                tree-sitter-langs treesit-auto typescript-mode vertico
+                vterm web-mode yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
