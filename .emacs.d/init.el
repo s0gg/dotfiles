@@ -297,6 +297,27 @@
   :init
   (marginalia-mode))
 
+(use-package embark
+  :ensure t
+  :bind
+  (("C-." . embark-act)         ;; pick some comfortable binding
+   ("C-;" . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+  :init
+  (setq prefix-help-command #'embark-prefix-help-command)
+  :config
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+(use-package embark-consult
+  :ensure t
+  :after
+  (consult embark)
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
 (use-package lsp-mode
   :init
   (setq lsp-keymap-prefix "C-c l")
@@ -463,13 +484,13 @@
  '(ignored-local-variable-values '((lsp-enabled-clients deno-ls)))
  '(package-selected-packages
    '(ace-window affe all-the-icons catppuccin-theme consult-ghq corfu
-                ddskk doom-modeline elfeed emacs-reveal
-                fill-column-indicator flycheck git-gutter helm-lsp
-                hydra lsp-treemacs lsp-ui magit marginalia nix-mode
-                orderless org-bullets org-re-reveal org-ref org-roam
-                org-super-agenda rust-mode slime tree-sitter-langs
-                treesit-auto typescript-mode vertico web-mode
-                yasnippet)))
+                ddskk doom-modeline elfeed emacs-reveal embark
+                embark-consult fill-column-indicator flycheck
+                git-gutter helm-lsp hydra lsp-treemacs lsp-ui magit
+                marginalia nix-mode orderless org-bullets
+                org-re-reveal org-ref org-roam org-super-agenda
+                rust-mode slime tree-sitter-langs treesit-auto
+                typescript-mode vertico web-mode yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
