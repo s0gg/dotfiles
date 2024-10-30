@@ -451,6 +451,12 @@
   :after corfu
   :hook (corfu-mode . corfu-popupinfo-mode))
 
+(use-package nerd-icons-corfu
+  :ensure t
+  :after (corfu nerd-icons)
+  :config
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
 (use-package git-gutter
   :ensure t
   :init
@@ -515,15 +521,15 @@
  ;; If there is more than one, they won't work right.
  '(ignored-local-variable-values '((lsp-enabled-clients deno-ls)))
  '(package-selected-packages
-   '(ace-window affe all-the-icons catppuccin-theme consult-ghq corfu
-                corfu-prescient ddskk doom-modeline elfeed
-                emacs-reveal embark embark-consult expand-region
-                fill-column-indicator flycheck git-gutter helm-lsp
-                hydra lsp-treemacs lsp-ui magit marginalia nix-mode
-                orderless org-bullets org-re-reveal org-ref org-roam
-                org-super-agenda prescient rust-mode slime
-                tree-sitter-langs treesit-auto typescript-mode vertico
-                vertico-prescient vterm web-mode yasnippet)))
+   '(ace-window affe all-the-icons cape catppuccin-theme consult-ghq
+                corfu ddskk doom-modeline elfeed emacs-reveal embark
+                embark-consult expand-region fill-column-indicator
+                flycheck git-gutter helm-lsp hydra lsp-treemacs lsp-ui
+                magit marginalia nerd-icons-corfu nix-mode orderless
+                org-bullets org-re-reveal org-ref org-roam
+                org-super-agenda rust-mode slime tree-sitter-langs
+                treesit-auto typescript-mode vertico vterm web-mode
+                yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
