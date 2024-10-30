@@ -318,6 +318,9 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
+(use-package vterm
+  :ensure t)
+
 (use-package lsp-mode
   :init
   (setq lsp-keymap-prefix "C-c l")
@@ -490,7 +493,7 @@
                 marginalia nix-mode orderless org-bullets
                 org-re-reveal org-ref org-roam org-super-agenda
                 rust-mode slime tree-sitter-langs treesit-auto
-                typescript-mode vertico web-mode yasnippet)))
+                typescript-mode vertico vterm web-mode yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
