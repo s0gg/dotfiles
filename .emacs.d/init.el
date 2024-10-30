@@ -291,6 +291,12 @@
   :bind
   ("C-c g f" . consult-ghq-find))
 
+(use-package marginalia
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+  :init
+  (marginalia-mode))
+
 (use-package lsp-mode
   :init
   (setq lsp-keymap-prefix "C-c l")
@@ -434,6 +440,21 @@
   :config
   (add-hook 'rust-mode-hook #'lsp))
 
+(use-package tide
+  :ensure t
+  :config
+  (defun setup-tide-mode ()
+    (interactive)
+    (tide-setup)
+    (flycheck-mode +1)
+    (setq flycheck-check-syntax-automatically '(save mode-enabled))
+    (eldoc-mode +1)
+    (tide-hl-identifier-mode +1)
+    (corfu-mode +1))
+  (add-hook 'before-save-hook 'tide-format-before-save)
+  (add-hook 'typescript-mode-hook #'setup-tide-mode)
+  (add-hook 'typescript-ts-mode-hook #'setup-tide-mode))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -444,8 +465,8 @@
    '(ace-window affe all-the-icons catppuccin-theme consult-ghq corfu
                 ddskk doom-modeline elfeed emacs-reveal
                 fill-column-indicator flycheck git-gutter helm-lsp
-                hydra lsp-treemacs lsp-ui magit nix-mode orderless
-                org-bullets org-re-reveal org-ref org-roam
+                hydra lsp-treemacs lsp-ui magit marginalia nix-mode
+                orderless org-bullets org-re-reveal org-ref org-roam
                 org-super-agenda rust-mode slime tree-sitter-langs
                 treesit-auto typescript-mode vertico web-mode
                 yasnippet)))
