@@ -321,6 +321,11 @@
 (use-package vterm
   :ensure t)
 
+(use-package expand-region
+  :ensure t
+  :config
+  (global-set-key (kbd "C-=") 'er/expand-region))
+
 (use-package lsp-mode
   :init
   (setq lsp-keymap-prefix "C-c l")
@@ -488,9 +493,9 @@
  '(package-selected-packages
    '(ace-window affe all-the-icons catppuccin-theme consult-ghq corfu
                 ddskk doom-modeline elfeed emacs-reveal embark
-                embark-consult fill-column-indicator flycheck
-                git-gutter helm-lsp hydra lsp-treemacs lsp-ui magit
-                marginalia nix-mode orderless org-bullets
+                embark-consult expand-region fill-column-indicator
+                flycheck git-gutter helm-lsp hydra lsp-treemacs lsp-ui
+                magit marginalia nix-mode orderless org-bullets
                 org-re-reveal org-ref org-roam org-super-agenda
                 rust-mode slime tree-sitter-langs treesit-auto
                 typescript-mode vertico vterm web-mode yasnippet)))
