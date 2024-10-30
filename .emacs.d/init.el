@@ -335,6 +335,13 @@
   :config
   (vertico-prescient-mode +1))
 
+(use-package cape
+  :bind ("C-c p" . cape-prefix-map) ;; Alternative keys: M-p, M-+, ...
+  :init
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-elisp-block))
+
 (use-package vterm
   :ensure t)
 
