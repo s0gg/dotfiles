@@ -3,9 +3,10 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
-  outputs = { self, nixpkgs }: {
+  outputs = { self, nixpkgs, neovim-nightly-overlay }: {
 
     packages.x86_64-linux.my-packages = nixpkgs.legacyPackages.x86_64-linux.buildEnv {
       name = "my-package-list";
@@ -15,6 +16,7 @@
 
         nixpkgs.legacyPackages.x86_64-linux.nmap
         nixpkgs.legacyPackages.x86_64-linux.gobuster
+        neovim-nightly-overlay.packages.x86_64-linux.neovim
       ];
     };
 
