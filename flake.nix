@@ -20,9 +20,13 @@
       ];
     };
 
-    packages.x86_64-linux.hello = nixpkgs.legacyPackages.x86_64-linux.hello;
-
-    packages.x86_64-linux.default = self.packages.x86_64-linux.hello;
-
+    apps.x86_64-linux.update = {
+      type = "app";
+      program = toString (nixpkgs.legacyPackages.x86_64-linux.writeShellScript "update-script" ''
+        set -e
+        nix flake update
+        nix profile upgrade my-packages
+      '');
+    };
   };
 }
