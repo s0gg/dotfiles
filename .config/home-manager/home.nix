@@ -27,6 +27,8 @@ in {
       gobuster
       neovim
       volta
+      ghq
+      cargo-binstall
     ];
   };
 
