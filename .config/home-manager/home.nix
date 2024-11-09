@@ -26,6 +26,7 @@ in {
       nmap
       gobuster
       neovim
+      volta
     ];
   };
 
