@@ -29,6 +29,7 @@ in {
       volta
       ghq
       cargo-binstall
+      bun
     ];
   };
 
