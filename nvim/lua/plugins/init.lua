@@ -313,18 +313,17 @@ return {
   },
   { "nvim-lua/plenary.nvim" },
   {
-    "nvim-telescope/telescope.nvim",
-    event = "VeryLazy",
-    branch = "0.1.x",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    'vim-fall/fall.vim',
+    dependencies = { 'vim-denops/denops.vim' },
+    event = 'VeryLazy',
+    cmd = 'Fall',
     config = function()
-      -- require("telescope_rc")
-      local builtin = require('telescope.builtin')
-
-      vim.keymap.set('n', '<Space>ff', builtin.find_files, {})
-      vim.keymap.set('n', '<Space>fg', builtin.live_grep, {})
-      vim.keymap.set('n', '<Space>fb', builtin.buffers, {})
-      vim.keymap.set('n', '<Space>fh', builtin.help_tags, {})
+      local keymap = vim.keymap
+      keymap.set('n', '<Space>ff', '<Cmd>Fall file<CR>')
+      keymap.set('n', '<Space>fg', '<Cmd>Fall rg<CR>')
+      keymap.set('n', '<Space>fb', '<Cmd>Fall buffer<CR>')
+      keymap.set('n', '<Space>fn', '<Cmd>Fall help<CR>')
+      keymap.set('n', '<Space>fl', '<Cmd>Fall line<CR>')
     end
   },
   {
