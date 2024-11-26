@@ -29,7 +29,9 @@ in {
       volta
       ghq
       cargo-binstall
+      deno
       bun
+      gh
     ];
   };
 
