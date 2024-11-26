@@ -319,11 +319,11 @@ return {
     cmd = 'Fall',
     config = function()
       local keymap = vim.keymap
-      keymap.set('n', '<Space>ff', '<Cmd>Fall file<CR>')
-      keymap.set('n', '<Space>fg', '<Cmd>Fall rg<CR>')
-      keymap.set('n', '<Space>fb', '<Cmd>Fall buffer<CR>')
-      keymap.set('n', '<Space>fn', '<Cmd>Fall help<CR>')
-      keymap.set('n', '<Space>fl', '<Cmd>Fall line<CR>')
+      keymap.set('n', '<Space>ff', '<Cmd>Fall file<CR>', { silent = true })
+      keymap.set('n', '<Space>fg', '<Cmd>Fall rg<CR>', { silent = true })
+      keymap.set('n', '<Space>fb', '<Cmd>Fall buffer<CR>', { silent = true })
+      keymap.set('n', '<Space>fn', '<Cmd>Fall help<CR>', { silent = true })
+      keymap.set('n', '<Space>fl', '<Cmd>Fall line<CR>', { silent = true })
     end
   },
   {
