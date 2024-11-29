@@ -1,0 +1,10 @@
+import = [
+    "~/.config/alacritty/catppuccin-mocha.toml"
+]
+
+[font]
+normal = { family = "HackGenConsoleNF" }
+
+[shell]
+program = "fish"
+args = ["-l"]
