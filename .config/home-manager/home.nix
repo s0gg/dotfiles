@@ -34,6 +34,8 @@ in {
       bun
       gh
       emacs
+      fish
+      zellij
     ];
   };
 
