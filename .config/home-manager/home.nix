@@ -36,6 +36,7 @@ in {
       emacs
       fish
       zellij
+      devenv
     ];
   };
 
