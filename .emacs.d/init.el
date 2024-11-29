@@ -22,8 +22,8 @@
 (setq coding-system-for-read 'utf-8-unix)
 (setq coding-systme-for-write 'utf-8-unix)
 
-(add-to-list 'default-frame-alist '(font . "0xProto-14"))
-(set-fontset-font "fontset-default" 'unicode "HackGen Console NF")
+;; (add-to-list 'default-frame-alist '(font . "0xProto-14"))
+;; (set-fontset-font "fontset-default" 'unicode "HackGen Console NF")
 
 (setopt make-backup-files nil)
 (setopt backup-by-copying t)
@@ -56,7 +56,7 @@
 
 (package-initialize)
 
-(set-face-attribute 'default nil :font "HackGen Console NF" :height 100)
+;; (set-face-attribute 'default nil :font "HackGen Console NF" :height 100)
 
 (add-hook 'js-mode-hook
           (lambda ()
@@ -504,11 +504,11 @@
   :config
   (add-hook 'rust-mode-hook #'lsp))
 
-(use-package smartparens
-  :ensure smartparens
-  :hook (prog-mode . smartparens-mode)
-  :config
-  (require 'smartparens-config))
+(use-package puni
+  :defer t
+  :init
+  (puni-global-mode)
+  (add-hook 'term-mode-hook #'puni-disable-puni-mode))
 
 (use-package tide
   :ensure t
@@ -532,16 +532,7 @@
  ;; If there is more than one, they won't work right.
  '(ignored-local-variable-values '((lsp-enabled-clients deno-ls)))
  '(package-selected-packages
-   '(ace-window affe all-the-icons cape catppuccin-theme consult-ghq
-                corfu corfu-prescient ddskk doom-modeline elfeed
-                emacs-reveal embark embark-consult expand-region
-                fill-column-indicator flycheck git-gutter helm-lsp
-                hydra indent-bars lsp-treemacs lsp-ui magit marginalia
-                nerd-icons-corfu nix-mode orderless org-bullets
-                org-re-reveal org-ref org-roam org-super-agenda
-                prescient rust-mode slime smartparens
-                tree-sitter-langs treesit-auto typescript-mode vertico
-                vertico-prescient vterm web-mode yasnippet)))
+   '(puni ace-window affe all-the-icons cape catppuccin-theme consult-ghq corfu corfu-prescient ddskk doom-modeline elfeed emacs-reveal embark embark-consult expand-region fill-column-indicator flycheck git-gutter helm-lsp hydra indent-bars lsp-treemacs lsp-ui magit marginalia nerd-icons-corfu nix-mode orderless org-bullets org-re-reveal org-ref org-roam org-super-agenda prescient rust-mode slime smartparens tree-sitter-langs treesit-auto typescript-mode vertico vertico-prescient vterm web-mode yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
