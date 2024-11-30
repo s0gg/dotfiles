@@ -37,6 +37,14 @@ in {
       fish
       zellij
       devenv
+      hugo
+      cmake
+      libvterm
+      libtool
+      fd
+      bat
+      ripgrep
+      fzf
     ];
   };
 
