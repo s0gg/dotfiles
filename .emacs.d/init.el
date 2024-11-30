@@ -1,7 +1,5 @@
 ;; -*- lexical-bingding: t -*-
 
-(load "custom.el")
-
 (if (file-readable-p "custom.el")
     (load "custom.el"))
 
