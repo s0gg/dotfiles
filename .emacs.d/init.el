@@ -514,7 +514,11 @@
   :defer t
   :init
   (puni-global-mode)
-  (add-hook 'term-mode-hook #'puni-disable-puni-mode))
+  (add-hook 'term-mode-hook #'puni-disable-puni-mode)
+  :bind
+  (("C-)" . puni-slurp-forward)
+   ("C-}" . puni-barf-forward)
+   ("M-(" . puni-wrap-round)))
 
 (use-package tide
   :ensure t
