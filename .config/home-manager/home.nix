@@ -45,6 +45,7 @@ in {
       bat
       ripgrep
       fzf
+      clojure
     ];
   };
 

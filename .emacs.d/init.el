@@ -87,6 +87,14 @@
   :ensure t
   :bind (("C-x g" . magit-status)))
 
+(use-package flymake
+  :ensure nil
+  :bind
+  (("M-n" . flymake-goto-next-error)
+   ("M-p" . flymake-goto-prev-error))
+  :config
+  (flymake-mode))
+
 (use-package which-key
   :ensure t
   :config
