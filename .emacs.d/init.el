@@ -520,6 +520,9 @@
    ("C-}" . puni-barf-forward)
    ("M-(" . puni-wrap-round)))
 
+(use-package cider
+  :ensure t)
+
 (use-package tide
   :ensure t
   :config
