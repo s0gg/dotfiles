@@ -46,6 +46,8 @@ in {
       ripgrep
       fzf
       clojure
+      go
+      gopls
     ];
   };
 
