@@ -362,6 +362,7 @@
   (setq lsp-headerline-breadcrumb-enable nil)
   :hook
   ((ruby-mode . lsp)
+   (go-mode . lsp)
    (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
 
@@ -521,7 +522,12 @@
    ("M-(" . puni-wrap-round)))
 
 (use-package go-mode
-  :ensure t)
+  :ensure t
+  :hook
+  ((go-mode . (lambda ()
+               (setq tab-width 8)
+               (setq indent-tabs-mode t)))
+   (before-save . gofmt-before-save)))
 
 (use-package cider)
 
