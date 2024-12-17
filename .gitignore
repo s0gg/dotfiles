@@ -1,3 +1,4 @@
 .emacs.d/*
 !.emacs.d/init.el
 result
+alacritty/catppuccin-mocha.toml
