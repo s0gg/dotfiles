@@ -1,8 +1,5 @@
 ;; -*- lexical-bingding: t -*-
 
-(if (file-readable-p "custom.el")
-    (load "custom.el"))
-
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
