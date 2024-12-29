@@ -48,6 +48,7 @@ in {
       clojure
       go
       gopls
+      tmux
     ];
   };
 
