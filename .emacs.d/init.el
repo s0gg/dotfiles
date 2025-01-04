@@ -41,6 +41,7 @@
 (setenv "GHQ_ROOT" (concat (getenv "HOME") "/.local/ghq"))
 (setq exec-path (append exec-path (list (concat (getenv "HOME") "/go/bin"))))
 (setq exec-path (append exec-path (list (concat (getenv "HOME") "/.deno/bin"))))
+(setq exec-path (append exec-path (list (concat (getenv "HOME") "/.volta/bin"))))
 (setq rbenv-path (concat (getenv "HOME") "/.rbenv/shims"))
 (setq exec-path (append exec-path (list rbenv-path)))
 
