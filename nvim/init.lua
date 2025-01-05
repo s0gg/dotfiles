@@ -1,5 +1,7 @@
 -- s0gg's nvim config
 
+vim.g.mapleader = " "
+
 local opt = vim.opt
 opt.fileencoding = "utf-8"
 opt.swapfile = false
