@@ -41,6 +41,7 @@ in {
       cmake
       libvterm
       libtool
+      lua-language-server
       fd
       bat
       ripgrep
