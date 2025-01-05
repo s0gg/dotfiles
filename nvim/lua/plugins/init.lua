@@ -316,20 +316,6 @@ return {
   },
   { "nvim-lua/plenary.nvim" },
   {
-    'vim-fall/fall.vim',
-    dependencies = { 'vim-denops/denops.vim' },
-    event = 'VeryLazy',
-    cmd = 'Fall',
-    config = function()
-      local keymap = vim.keymap
-      keymap.set('n', '<Space>ff', '<Cmd>Fall file<CR>', { silent = true })
-      keymap.set('n', '<Space>fg', '<Cmd>Fall rg<CR>', { silent = true })
-      keymap.set('n', '<Space>fb', '<Cmd>Fall buffer<CR>', { silent = true })
-      keymap.set('n', '<Space>fn', '<Cmd>Fall help<CR>', { silent = true })
-      keymap.set('n', '<Space>fl', '<Cmd>Fall line<CR>', { silent = true })
-    end
-  },
-  {
     "numToStr/Comment.nvim",
     event = "VeryLazy",
     config = function()
