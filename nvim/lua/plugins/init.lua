@@ -80,7 +80,7 @@ return {
       parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
     end
   },
-  { "folke/neodev.nvim" },
+  { "folke/neodev.nvim", opts = {} },
   {
     "neovim/nvim-lspconfig",
     event = "BufReadPost",
@@ -89,8 +89,6 @@ return {
       "hrsh7th/cmp-nvim-lsp"
     },
     config = function()
-      require("neodev").setup({})
-
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       local lspconfig = require("lspconfig")
