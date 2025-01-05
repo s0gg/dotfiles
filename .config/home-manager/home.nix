@@ -49,6 +49,7 @@ in {
       go
       gopls
       tmux
+      zig
     ];
   };
 
