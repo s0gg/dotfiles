@@ -342,6 +342,29 @@ return {
     event = "InsertEnter",
     config = function()
       require("insx.preset.standard").setup()
+      local insx = require("insx")
+      insx.add('<%= ', {
+        enabled = function()
+          return vim.bo.filetype == 'eruby'
+        end,
+        action = function(ctx)
+          ctx.send('<%= ')
+          local row, col = ctx.row(), ctx.col()
+          ctx.send(' %>')
+          ctx.move(row, col)
+        end
+      })
+      insx.add('<% ', {
+        enabled = function()
+          return vim.bo.filetype == 'eruby'
+        end,
+        action = function(ctx)
+          ctx.send('<% ')
+          local row, col = ctx.row(), ctx.col()
+          ctx.send(' %>')
+          ctx.move(row, col)
+        end
+      })
     end
   },
   { "nvim-lua/plenary.nvim" },
