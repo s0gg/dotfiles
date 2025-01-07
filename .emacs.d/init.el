@@ -547,6 +547,20 @@
 (use-package astro-ts-mode
   :ensure t)
 
+(add-to-list 'load-path (expand-file-name "~/.local/ghq/github.com/sourcegraph/emacs-cody"))
+(use-package cody
+  :ensure nil
+  :commands (cody-login cody-restart cody-chat cody-mode)
+  :bind (("C-M-n" . cody-completion-cycle-next-key-dispatch)
+         ("C-M-p" . cody-completion-cycle-prev-key-dispatch)
+         ("M-TAB" . cody-completion-accept-key-dispatch)
+         ("C-M-g" . cody-quit-key-dispatch))
+  :init
+  (setq cody--sourcegraph-host "sourcegraph.com")
+  (setq cody--access-token "")
+  :config
+  (defalias 'cody-start 'cody-login))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -554,7 +568,7 @@
  ;; If there is more than one, they won't work right.
  '(ignored-local-variable-values '((lsp-enabled-clients deno-ls)))
  '(package-selected-packages
-   '(astro-ts-mode go-mode cider puni ace-window affe all-the-icons cape catppuccin-theme consult-ghq corfu corfu-prescient ddskk doom-modeline elfeed emacs-reveal embark embark-consult expand-region fill-column-indicator flycheck git-gutter helm-lsp hydra indent-bars lsp-treemacs lsp-ui magit marginalia nerd-icons-corfu nix-mode orderless org-bullets org-re-reveal org-ref org-roam org-super-agenda prescient rust-mode slime smartparens tree-sitter-langs treesit-auto typescript-mode vertico vertico-prescient web-mode yasnippet)))
+   '(jsonrpc uuidgen cody astro-ts-mode go-mode cider puni ace-window affe all-the-icons cape catppuccin-theme consult-ghq corfu corfu-prescient ddskk doom-modeline elfeed emacs-reveal embark embark-consult expand-region fill-column-indicator flycheck git-gutter helm-lsp hydra indent-bars lsp-treemacs lsp-ui magit marginalia nerd-icons-corfu nix-mode orderless org-bullets org-re-reveal org-ref org-roam org-super-agenda prescient rust-mode slime smartparens tree-sitter-langs treesit-auto typescript-mode vertico vertico-prescient web-mode yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
