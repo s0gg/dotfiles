@@ -17,11 +17,11 @@
 (setq coding-system-for-read 'utf-8-unix)
 (setq coding-systme-for-write 'utf-8-unix)
 
-(add-to-list 'default-frame-alist '(font . "HackGen Console NF-10"))
+(add-to-list 'default-frame-alist '(font . "HackGen Console NF-12"))
 (set-face-attribute 'default t
                     :family "HackGen Console NF"
-                    :height 100)
-(set-frame-font "HackGen Console NF-10" nil t)
+                    :height 120)
+(set-frame-font "HackGen Console NF-12" nil t)
 
 (setopt make-backup-files nil)
 (setopt backup-by-copying t)
