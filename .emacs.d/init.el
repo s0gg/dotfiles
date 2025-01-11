@@ -5,6 +5,8 @@
 (scroll-bar-mode -1)
 (set-language-environment "UTF-8")
 
+(setq warning-minimum-level :error)
+
 (set-default-coding-systems 'utf-8-unix)
 (prefer-coding-system 'utf-8-unix)
 (set-selection-coding-system 'utf-8-unix)
