@@ -563,6 +563,20 @@
   :config
   (defalias 'cody-start 'cody-login))
 
+(use-package consult-gh
+  :after consult
+  :ensure t)
+
+(use-package consult-gh-embark
+  :after consult-gh
+  :ensure t
+  :config
+  (consult-gh-embark-mode +1))
+
+(defun consult-gh-review-requested-prs
+  (interactive)
+  (consult-gh-search-prs "review-requested:@me" nil))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -570,7 +584,7 @@
  ;; If there is more than one, they won't work right.
  '(ignored-local-variable-values '((lsp-enabled-clients deno-ls)))
  '(package-selected-packages
-   '(jsonrpc uuidgen cody astro-ts-mode go-mode cider puni ace-window affe all-the-icons cape catppuccin-theme consult-ghq corfu corfu-prescient ddskk doom-modeline elfeed emacs-reveal embark embark-consult expand-region fill-column-indicator flycheck git-gutter helm-lsp hydra indent-bars lsp-treemacs lsp-ui magit marginalia nerd-icons-corfu nix-mode orderless org-bullets org-re-reveal org-ref org-roam org-super-agenda prescient rust-mode slime smartparens tree-sitter-langs treesit-auto typescript-mode vertico vertico-prescient web-mode yasnippet)))
+   '(consult-gh-forge ddskk-posframe jsonrpc uuidgen cody astro-ts-mode go-mode cider puni ace-window affe all-the-icons cape catppuccin-theme consult-ghq corfu corfu-prescient ddskk doom-modeline elfeed emacs-reveal embark embark-consult expand-region fill-column-indicator flycheck git-gutter helm-lsp hydra indent-bars lsp-treemacs lsp-ui magit marginalia nerd-icons-corfu nix-mode orderless org-bullets org-re-reveal org-ref org-roam org-super-agenda prescient rust-mode slime smartparens tree-sitter-langs treesit-auto typescript-mode vertico vertico-prescient web-mode yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
