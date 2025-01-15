@@ -518,4 +518,13 @@ return {
       return cmp.setup(config)
     end,
   },
+  {
+    'folke/snacks.nvim',
+    priority = 1000,
+    lazy = false,
+    opts = {
+      dashboard = { enabled = true },
+      statuscolumn = { enabled = true }
+    }
+  }
 }
