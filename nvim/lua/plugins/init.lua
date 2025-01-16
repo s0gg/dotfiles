@@ -179,6 +179,18 @@ return {
         }
       })
 
+      vim.api.nvim_create_autocmd('BufReadPost', {
+        desc = "LSP: iccheck",
+        callback = function()
+          vim.lsp.start({
+            capabilities = capabilities,
+            cmd = { '/home/s0gg/.local/bin/iccheck', 'lsp' },
+            name = 'iccheck',
+            root_dir = vim.fn.getcwd()
+          })
+        end
+      })
+
       -- Global mappings.
       -- See `:help vim.diagnostic.*` for documentation on any of the below functions
       vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
