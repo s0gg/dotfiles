@@ -103,14 +103,6 @@
   :config
   (which-key-mode))
 
-(use-package fill-column-indicator
-  :ensure t
-  :config
-  (setq fci-rule-column 80
-        fci-rule-width 1
-        fci-rule-color "darkgray")
-  (add-hook 'prog-mode-hook 'fci-mode))
-
 (use-package org-capture
   :ensure nil
   :init
@@ -584,7 +576,7 @@
  ;; If there is more than one, they won't work right.
  '(ignored-local-variable-values '((lsp-enabled-clients deno-ls)))
  '(package-selected-packages
-   '(consult-gh-forge ddskk-posframe jsonrpc uuidgen cody astro-ts-mode go-mode cider puni ace-window affe all-the-icons cape catppuccin-theme consult-ghq corfu corfu-prescient ddskk doom-modeline elfeed emacs-reveal embark embark-consult expand-region fill-column-indicator flycheck git-gutter helm-lsp hydra indent-bars lsp-treemacs lsp-ui magit marginalia nerd-icons-corfu nix-mode orderless org-bullets org-re-reveal org-ref org-roam org-super-agenda prescient rust-mode slime smartparens tree-sitter-langs treesit-auto typescript-mode vertico vertico-prescient web-mode yasnippet)))
+   '(consult-gh-embark consult-gh consult-gh-forge ddskk-posframe jsonrpc uuidgen cody astro-ts-mode go-mode cider puni ace-window affe all-the-icons cape catppuccin-theme consult-ghq corfu corfu-prescient ddskk doom-modeline elfeed emacs-reveal embark embark-consult expand-region flycheck git-gutter helm-lsp hydra indent-bars lsp-treemacs lsp-ui magit marginalia nerd-icons-corfu nix-mode orderless org-bullets org-re-reveal org-ref org-roam org-super-agenda prescient rust-mode slime smartparens tree-sitter-langs treesit-auto typescript-mode vertico vertico-prescient web-mode yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
