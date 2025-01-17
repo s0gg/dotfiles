@@ -402,7 +402,7 @@
   :init
   (global-set-key "\C-ca" 'org-agenda)
   (setq org-directory "~/org"
-        org-todo-keywords '((sequence "INBOX" "TODO" "|" "DONE" "CANCELED"))
+        org-todo-keywords '((sequence "TODO" "DOING" "REVIEW" "|" "DONE" "CANCELED"))
         org-agenda-files (list (expand-file-name org-directory))
         org-startup-indented t)
   (org-babel-do-load-languages
