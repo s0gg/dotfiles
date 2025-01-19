@@ -15,6 +15,10 @@
     system = "x86_64-linux";
     pkgs = import nixpkgs { inherit system; };
   in {
+    packages.${system} = {
+      hello = pkgs.hello;
+    };
+
     apps.x86_64-linux.update = {
       type = "app";
       program = toString (nixpkgs.legacyPackages.x86_64-linux.writeShellScript "update-script" ''
