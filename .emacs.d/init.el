@@ -572,6 +572,11 @@
 (use-package org-nix-shell
   :hook (org-mode . org-nix-shell-mode))
 
+(use-package copilot
+  :vc (:url "https://github.com/copilot-emacs/copilot.el"
+            :rev :newest
+            :branch "main"))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -579,7 +584,22 @@
  ;; If there is more than one, they won't work right.
  '(ignored-local-variable-values '((lsp-enabled-clients deno-ls)))
  '(package-selected-packages
-   '(org-nix-shell consult-gh-embark consult-gh consult-gh-forge ddskk-posframe jsonrpc uuidgen cody astro-ts-mode go-mode cider puni ace-window affe all-the-icons cape catppuccin-theme consult-ghq corfu corfu-prescient ddskk doom-modeline elfeed emacs-reveal embark embark-consult expand-region flycheck git-gutter helm-lsp hydra indent-bars lsp-treemacs lsp-ui magit marginalia nerd-icons-corfu nix-mode orderless org-bullets org-re-reveal org-ref org-roam org-super-agenda prescient rust-mode slime smartparens tree-sitter-langs treesit-auto typescript-mode vertico vertico-prescient web-mode yasnippet)))
+   '(ace-window affe all-the-icons astro-ts-mode cape catppuccin-theme
+                cider cody consult-gh consult-gh-embark
+                consult-gh-forge consult-ghq copilot corfu
+                corfu-prescient ddskk ddskk-posframe doom-modeline
+                elfeed emacs-reveal embark embark-consult
+                expand-region flycheck git-gutter go-mode helm-lsp
+                hydra indent-bars jsonrpc lsp-treemacs lsp-ui magit
+                marginalia nerd-icons-corfu nix-mode orderless
+                org-bullets org-nix-shell org-re-reveal org-ref
+                org-roam org-super-agenda prescient puni rust-mode
+                slime smartparens tree-sitter-langs treesit-auto
+                typescript-mode uuidgen vertico vertico-prescient
+                web-mode yasnippet))
+ '(package-vc-selected-packages
+   '((copilot :url "https://github.com/copilot-emacs/copilot.el" :branch
+              "main"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
