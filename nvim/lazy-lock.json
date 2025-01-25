@@ -39,6 +39,7 @@
   "orgmode": { "branch": "master", "commit": "b1922c62640a69483f130fcfb47a27582b6dfd78" },
   "overseer.nvim": { "branch": "master", "commit": "35b729b746a4d65c83efee5b5643f07c2c1105d2" },
   "plenary.nvim": { "branch": "master", "commit": "3707cdb1e43f5cea73afb6037e6494e7ce847a66" },
+  "quicker.nvim": { "branch": "master", "commit": "92e0f61a5d6422424cf7728ad323d2a06e3ab2d5" },
   "ror.nvim": { "branch": "main", "commit": "9d31ad3953be83ac8dd542725ca4881c861f64a5" },
   "skkeleton": { "branch": "main", "commit": "8bb1b8782227291c8cbe2aa62a9af732557690cc" },
   "telescope.nvim": { "branch": "0.1.x", "commit": "a0bbec21143c7bc5f8bb02e0005fa0b982edc026" },

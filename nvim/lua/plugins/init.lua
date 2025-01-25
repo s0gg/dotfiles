@@ -529,5 +529,12 @@ return {
       table.insert(config.sources, { name = "conjure" })
       return cmp.setup(config)
     end,
+  },
+  {
+    'stevearc/quicker.nvim',
+    event = "FileType qf",
+    ---@module "quicker"
+    ---@type quicker.SetupOptions
+    opts = {},
   }
 }
