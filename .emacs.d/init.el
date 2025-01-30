@@ -577,6 +577,10 @@
             :rev :newest
             :branch "main"))
 
+(use-package direnv
+  :config
+  (direnv-mode))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -587,16 +591,16 @@
    '(ace-window affe all-the-icons astro-ts-mode cape catppuccin-theme
                 cider cody consult-gh consult-gh-embark
                 consult-gh-forge consult-ghq copilot corfu
-                corfu-prescient ddskk ddskk-posframe doom-modeline
-                elfeed emacs-reveal embark embark-consult
-                expand-region flycheck git-gutter go-mode helm-lsp
-                hydra indent-bars jsonrpc lsp-treemacs lsp-ui magit
-                marginalia nerd-icons-corfu nix-mode orderless
-                org-bullets org-nix-shell org-re-reveal org-ref
-                org-roam org-super-agenda prescient puni rust-mode
-                slime smartparens tree-sitter-langs treesit-auto
-                typescript-mode uuidgen vertico vertico-prescient
-                web-mode yasnippet))
+                corfu-prescient ddskk ddskk-posframe direnv
+                doom-modeline elfeed emacs-reveal embark
+                embark-consult expand-region flycheck git-gutter
+                go-mode helm-lsp hydra indent-bars jsonrpc
+                lsp-treemacs lsp-ui magit marginalia nerd-icons-corfu
+                nix-mode orderless org-bullets org-nix-shell
+                org-re-reveal org-ref org-roam org-super-agenda
+                prescient puni rust-mode slime smartparens
+                tree-sitter-langs treesit-auto typescript-mode uuidgen
+                vertico vertico-prescient web-mode yasnippet))
  '(package-vc-selected-packages
    '((copilot :url "https://github.com/copilot-emacs/copilot.el" :branch
               "main"))))
