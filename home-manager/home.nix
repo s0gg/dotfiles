@@ -68,6 +68,9 @@
     pkgs.ghq
     pkgs.git
     pkgs.lua-language-server
+
+    pkgs.subfinder
+    pkgs.httpx
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
