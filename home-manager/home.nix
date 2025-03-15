@@ -71,6 +71,7 @@
 
     pkgs.subfinder
     pkgs.httpx
+    pkgs.dig
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
