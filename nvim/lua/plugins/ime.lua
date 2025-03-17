@@ -13,7 +13,7 @@ return {
       if os_name == "Linux" then
         dictionary_path = "~/.local/share/skk/SKK-JISYO.L"
       elseif os_name == "Darwin" then
-        dictionary_path = ""
+        dictionary_path = "~/Library/Application Support/AquaSKK/SKK-JISYO.L"
       else
         dictionary_path = nil
       end
