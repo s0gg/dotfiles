@@ -68,6 +68,7 @@
     pkgs.ghq
     pkgs.git
     pkgs.lua-language-server
+    pkgs.google-cloud-sdk
 
     pkgs.subfinder
     pkgs.httpx
