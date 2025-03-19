@@ -69,6 +69,7 @@
     pkgs.git
     pkgs.lua-language-server
     pkgs.google-cloud-sdk
+    pkgs.awscli2
 
     pkgs.subfinder
     pkgs.httpx
