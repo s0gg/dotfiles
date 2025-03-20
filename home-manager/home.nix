@@ -1,5 +1,11 @@
 { lib, config, pkgs, ... }:
 
+let
+  gcloud = pkgs.google-cloud-sdk.withExtraComponents [
+    pkgs.google-cloud-sdk.components.gke-gcloud-auth-plugin
+    pkgs.google-cloud-sdk.components.kubectl
+  ];
+in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -68,8 +74,8 @@
     pkgs.ghq
     pkgs.git
     pkgs.lua-language-server
-    pkgs.google-cloud-sdk
     pkgs.awscli2
+    gcloud
 
     pkgs.subfinder
     pkgs.httpx
