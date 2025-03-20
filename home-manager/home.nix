@@ -76,6 +76,7 @@ in
     pkgs.lua-language-server
     pkgs.awscli2
     gcloud
+    pkgs.k9s
 
     pkgs.subfinder
     pkgs.httpx
