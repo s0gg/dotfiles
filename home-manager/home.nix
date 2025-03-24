@@ -77,6 +77,7 @@ in
     pkgs.awscli2
     gcloud
     pkgs.k9s
+    pkgs.minikube
 
     pkgs.subfinder
     pkgs.httpx
