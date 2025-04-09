@@ -3,14 +3,11 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-let
-  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/master.tar.gz";
-in
+
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      (import "${home-manager}/nixos")
     ];
 
   # Bootloader.
@@ -90,10 +87,9 @@ in
     #  thunderbird
       alacritty
       vim
+      vscode
     ];
   };
-
-  home-manager.users.s0gg = import /home/s0gg/.local/ghq/github.com/s0gg/dotfiles/home-manager/home.nix;
 
   # Install firefox.
   programs.firefox.enable = true;
@@ -114,8 +110,9 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
+    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    wget
+    git
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

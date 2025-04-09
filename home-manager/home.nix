@@ -19,7 +19,7 @@ in
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "24.11"; # Please read the comment before changing.
+  home.stateVersion = "24.05"; # Please read the comment before changing.
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -40,48 +40,50 @@ in
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
-    (pkgs.buildGoModule {
-      pname = "iccheck";
-      version = "0.9.0";
-      src = pkgs.fetchFromGitHub {
-        owner = "salab";
-        repo = "iccheck";
-        rev = "v0.9.0";
-        sha256 = "sha256-2bD5gN/7C79njrCVoR5H2ses6pWAQHZcYj7/f2+Ui/o=";
-      };
-      vendorHash = "sha256-pqjtoshoQlz+SFpaaxN3GMaDdZ+ztiIV6w+CTrRHuaA=";
-      meta = with lib; {
-        homepage = "https://github.com/salab/iccheck";
-      };
-      doCheck = false;
-      subPackages = [
-        "."
-        "./cmd"
-        "./pkg/domain"
-        "./pkg/fleccs"
-        "./pkg/lsp"
-        "./pkg/ncdsearch"
-        "./pkg/printer"
-        "./pkg/search"
-        "./pkg/utils"
-      ];
-    })
-    pkgs.direnv
+    # (pkgs.buildGoModule {
+    #   pname = "iccheck";
+    #   version = "0.9.0";
+    #   src = pkgs.fetchFromGitHub {
+    #     owner = "salab";
+    #     repo = "iccheck";
+    #     rev = "v0.9.0";
+    #     sha256 = "sha256-2bD5gN/7C79njrCVoR5H2ses6pWAQHZcYj7/f2+Ui/o=";
+    #   };
+    #   vendorHash = "sha256-pqjtoshoQlz+SFpaaxN3GMaDdZ+ztiIV6w+CTrRHuaA=";
+    #   meta = with lib; {
+    #     homepage = "https://github.com/salab/iccheck";
+    #   };
+    #   doCheck = false;
+    #   subPackages = [
+    #     "."
+    #     "./cmd"
+    #     "./pkg/domain"
+    #     "./pkg/fleccs"
+    #     "./pkg/lsp"
+    #     "./pkg/ncdsearch"
+    #     "./pkg/printer"
+    #     "./pkg/search"
+    #     "./pkg/utils"
+    #   ];
+    # })
+    gcloud
+    pkgs.awscli2
     pkgs.bat
+    pkgs.dig
+    pkgs.direnv
     pkgs.eza
-    pkgs.ripgrep
     pkgs.fd
+    pkgs.gh
     pkgs.ghq
     pkgs.git
-    pkgs.lua-language-server
-    pkgs.awscli2
-    gcloud
-    pkgs.k9s
-    pkgs.minikube
-
-    pkgs.subfinder
     pkgs.httpx
-    pkgs.dig
+    pkgs.k9s
+    pkgs.lua-language-server
+    pkgs.minikube
+    pkgs.ripgrep
+    pkgs.subfinder
+    pkgs.tmux
+    pkgs.uv
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -130,6 +132,11 @@ in
       nix-direnv.enable = true;
     };
 
-    bash.enable = true;
+    fish.enable = true;
+
+    emacs = {
+      enable = true;
+      package = pkgs.emacs;
+    };
   };
 }
