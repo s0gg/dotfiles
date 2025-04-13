@@ -1,0 +1,8 @@
+curl -fsSL https://deno.land/install.sh | sh
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+;;uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+;; Emacs
+./configure --with-tree-sitter --with-x-toolkit=gtk3
