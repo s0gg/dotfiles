@@ -581,6 +581,14 @@
   :config
   (direnv-mode))
 
+(use-package aidermacs
+  :bind (("C-c a" . aidermacs-transient-menu))
+  :config
+  (setenv "OPENAI_API_KEY" "")
+  :custom
+  (aidermacs-use-architect-mode t)
+  (aidermacs-default-model "o3-mini"))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -588,19 +596,14 @@
  ;; If there is more than one, they won't work right.
  '(ignored-local-variable-values '((lsp-enabled-clients deno-ls)))
  '(package-selected-packages
-   '(ace-window affe all-the-icons astro-ts-mode cape catppuccin-theme
-                cider cody consult-gh consult-gh-embark
-                consult-gh-forge consult-ghq copilot corfu
-                corfu-prescient ddskk ddskk-posframe direnv
-                doom-modeline elfeed emacs-reveal embark
-                embark-consult expand-region flycheck git-gutter
-                go-mode helm-lsp hydra indent-bars jsonrpc
-                lsp-treemacs lsp-ui magit marginalia nerd-icons-corfu
-                nix-mode orderless org-bullets org-nix-shell
-                org-re-reveal org-ref org-roam org-super-agenda
-                prescient puni rust-mode slime smartparens
-                tree-sitter-langs treesit-auto typescript-mode uuidgen
-                vertico vertico-prescient web-mode yasnippet))
+   '(affe aidermacs all-the-icons astro-ts-mode cape catppuccin-theme
+          cider consult-gh-embark consult-ghq copilot corfu-prescient
+          direnv elfeed expand-region git-gutter go-mode indent-bars
+          lsp-treemacs lsp-ui magit marginalia nerd-icons-corfu
+          nix-mode orderless org-bullets org-nix-shell org-roam
+          org-super-agenda puni rust-mode slime tide tree-sitter-langs
+          treesit-auto typescript-mode vertico-prescient web-mode
+          yasnippet))
  '(package-vc-selected-packages
    '((copilot :url "https://github.com/copilot-emacs/copilot.el" :branch
               "main"))))
