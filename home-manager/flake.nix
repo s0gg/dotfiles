@@ -8,13 +8,13 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    rist = {
-      url = "git+ssh://git@github.com/s0gg/rist.git";
-      flake = true;
-    };
+    # rist = {
+    #   url = "git+ssh://git@github.com/s0gg/rist.git";
+    #   flake = true;
+    # };
   };
 
-  outputs = { nixpkgs, home-manager, rist, ... }:
+  outputs = { nixpkgs, home-manager, ... }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -26,9 +26,9 @@
         # the path to your home.nix.
         modules = [
           ./home.nix 
-          {
-            home.packages = [ rist.defaultPackage.${system} ];
-          }
+          # {
+          #   home.packages = [ rist.defaultPackage.${system} ];
+          # }
         ];
 
         # Optionally use extraSpecialArgs
