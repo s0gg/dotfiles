@@ -132,7 +132,27 @@ in
       nix-direnv.enable = true;
     };
 
-    fish.enable = true;
+    fish = {
+      enable = true;
+      interactiveShellInit = ''
+        set -x NIX_PATH $HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels
+        if test -n "$NIX_PATH"
+            set -x NIX_PATH $NIX_PATH:$NIX_PATH
+        end
+        source "$HOME/.cargo/env.fish"
+        set -gx VOLTA_HOME "$HOME/.volta"
+        set -gx PATH "$VOLTA_HOME/bin" $PATH
+        set -gx GHQ_ROOT "$HOME/.local/ghq"
+        fish_add_path "$HOME/.local/bin"
+        fish_add_path "/usr/local/go/bin"
+        fish_add_path "$HOME/go/bin"
+        eval (direnv hook fish)
+        set -gx MANPAGER "sh -c 'sed -u -e \"s/\\x1B\[[0-9;]*m//g; s/.\\x08//g\" | bat -p -lman'"
+        # Commands to run in interactive sessions can go here
+        abbr mrl 'cd "$GHQ_ROOT/$(ghq list | fzf)"'
+        abbr ll 'eza --icons -lahF'
+      '';
+    };
 
     emacs = {
       enable = true;
