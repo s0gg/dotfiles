@@ -181,17 +181,17 @@ return {
         }
       })
 
-      vim.api.nvim_create_autocmd('BufReadPost', {
-        desc = "LSP: iccheck",
-        callback = function()
-          vim.lsp.start({
-            capabilities = capabilities,
-            cmd = { vim.env.HOME .. '/.nix-profile/bin/iccheck', 'lsp' },
-            name = 'iccheck',
-            root_dir = vim.fn.getcwd()
-          })
-        end
-      })
+      -- vim.api.nvim_create_autocmd('BufReadPost', {
+      --   desc = "LSP: iccheck",
+      --   callback = function()
+      --     vim.lsp.start({
+      --       capabilities = capabilities,
+      --       cmd = { vim.env.HOME .. '/.nix-profile/bin/iccheck', 'lsp' },
+      --       name = 'iccheck',
+      --       root_dir = vim.fn.getcwd()
+      --     })
+      --   end
+      -- })
 
       vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
       vim.keymap.set('n', '[d', vim.diagnostic.get_prev)
