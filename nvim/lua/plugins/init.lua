@@ -68,12 +68,14 @@ return {
 
       config.setup({
         ensure_installed = { "lua" },
+        auto_install = true,
         sync_install = false,
         highlight = { enable = true },
         incremental_selection = { enable = true },
         textobjects = { enable = true },
         autotag = { enable = true },
-        ignore_install = { 'org' }
+        modules = {},
+        ignore_install = {}
       })
 
       local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
@@ -191,11 +193,9 @@ return {
         end
       })
 
-      -- Global mappings.
-      -- See `:help vim.diagnostic.*` for documentation on any of the below functions
       vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
-      vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-      vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+      vim.keymap.set('n', '[d', vim.diagnostic.get_prev)
+      vim.keymap.set('n', ']d', vim.diagnostic.get_next)
       vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
 
       -- Use LspAttach autocommand to only map the following keys
@@ -251,8 +251,8 @@ return {
           vim.keymap.set("n", "<space>hs", function() require("gitsigns").stage_hunk() end, { silent = true })
           vim.keymap.set("n", "<space>hr", function() require("gitsigns").reset_hunk() end, { silent = true })
           vim.keymap.set("n", "<space>hp", function() require("gitsigns").preview_hunk() end, { silent = true })
-          vim.keymap.set("n", "]c", function() require("gitsigns").next_hunk() end, { silent = true })
-          vim.keymap.set("n", "[c", function() require("gitsigns").previous_hunk() end, { silent = true })
+          vim.keymap.set("n", "]c", function() require("gitsigns").nav_hunk('next') end, { silent = true })
+          vim.keymap.set("n", "[c", function() require("gitsigns").nav_hunk('prev') end, { silent = true })
         end
       })
     end
@@ -444,9 +444,7 @@ return {
   {
     'j-hui/fidget.nvim',
     lazy = false,
-    config = function()
-      require('fidget').setup()
-    end
+    opts = {}
   },
   {
     'stevearc/aerial.nvim',
@@ -488,20 +486,6 @@ return {
     config = function()
       require('dmacro').setup({
         dmacro_key = '<C-t>'
-      })
-    end
-  },
-  {
-    'nvim-orgmode/orgmode',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter'
-    },
-    event = 'VeryLazy',
-    ft = { 'org' },
-    config = function()
-      require('orgmode').setup({
-        org_agenda_files = '',
-        org_default_notes_file = ''
       })
     end
   },
