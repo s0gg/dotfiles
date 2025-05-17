@@ -138,5 +138,10 @@ in
       enable = true;
       package = pkgs.emacs;
     };
+
+    neovim = {
+      enable = true;
+      package = pkgs.neovim;
+    };
   };
 }
