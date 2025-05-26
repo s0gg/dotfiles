@@ -73,6 +73,7 @@ in
     pkgs.direnv
     pkgs.eza
     pkgs.fd
+    pkgs.fzf
     pkgs.gh
     pkgs.ghq
     pkgs.git
