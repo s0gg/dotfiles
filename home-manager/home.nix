@@ -69,6 +69,7 @@ in
     gcloud
     pkgs.awscli2
     pkgs.bat
+    pkgs.clojure-lsp
     pkgs.dig
     pkgs.direnv
     pkgs.eza
