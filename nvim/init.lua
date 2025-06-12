@@ -1,12 +1,19 @@
 -- s0gg's nvim config
 
+local function is_wsl()
+  return os.getenv("WSL_DISTRO_NAME") ~= nil
+end
+
 vim.g.mapleader = " "
 
 local opt = vim.opt
 opt.fileencoding = "utf-8"
 opt.swapfile = false
 opt.hidden = true
-opt.clipboard:append({ "unnamedplus" })
+if not is_wsl() then
+  -- only not in WSL because startup performance is worse 
+  opt.clipboard:append({ "unnamedplus" })
+end
 opt.wildmenu = true
 opt.showcmd = true
 opt.hlsearch = true
