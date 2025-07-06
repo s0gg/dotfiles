@@ -18,6 +18,7 @@
   "dial.nvim": { "branch": "master", "commit": "2c7e2750372918f072a20f3cf754d845e143d7c9" },
   "dmacro.nvim": { "branch": "main", "commit": "25ab1df31d216c4ff7554c262f92b5c0c6b743f0" },
   "dressing.nvim": { "branch": "master", "commit": "2d7c2db2507fa3c4956142ee607431ddb2828639" },
+  "fall.vim": { "branch": "main", "commit": "6e24d805aa35bbbf5cc8e4133bd11f69c0ad657b" },
   "fidget.nvim": { "branch": "main", "commit": "d9ba6b7bfe29b3119a610892af67602641da778e" },
   "gin.vim": { "branch": "main", "commit": "ab4372bf80fae633ac32b518cf4f1d45e31e7296" },
   "gitsigns.nvim": { "branch": "main", "commit": "43b0c856ae5f32a195d83f4a27fe21d63e6c966c" },

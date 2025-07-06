@@ -4,12 +4,18 @@ return {
     dependencies = { 'nvim-lua/plenary.nvim' },
     cmd = 'Telescope',
     opts = {},
-    config = function()
-      local builtin = require('telescope.builtin')
-      vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
-      vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
-      vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
-      vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
-    end
+  },
+  {
+    "vim-fall/fall.vim",
+    dependencies = { 'vim-denops/denops.vim' },
+    event = 'VeryLazy',
+    keys = {
+      { '<leader>ff', '<cmd>Fall file<cr>', mode = { 'n' }, desc = "Find files", silent = true },
+      { '<leader>fg', '<cmd>Fall rg<cr>', mode = { 'n' }, desc = "Find ripgrep", silent = true },
+      { '<leader>fb', '<cmd>Fall buffer<cr>', mode = { 'n' }, desc = "Find buffer", silent = true },
+      { '<leader>fh', '<cmd>Fall help<cr>', mode = { 'n' }, desc = "Find help", silent = true },
+      { '<leader>fl', '<cmd>Fall line<cr>', mode = { 'n' }, desc = "Find line", silent = true },
+      { '<leader>fo', '<cmd>Fall oldfiles<cr>', mode = { 'n' }, desc = "Find oldfiles", silent = true },
+    },
   }
 }
