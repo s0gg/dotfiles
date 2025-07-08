@@ -1,6 +1,6 @@
 return {
 	"weizheheng/ror.nvim",
-	event = "VeryLazy",
+	ft = "ruby",
 	dependencies = {
 		"nvim-telescope/telescope.nvim",
 		"rcarriga/nvim-notify",
