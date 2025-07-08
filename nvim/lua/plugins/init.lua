@@ -82,7 +82,15 @@ return {
 			parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
 		end,
 	},
-	{ "folke/neodev.nvim", opts = {} },
+	{
+		"folke/lazydev.nvim",
+		ft = "lua",
+		opts = {
+			library = {
+				"lazy.nvim",
+			},
+		},
+	},
 	{
 		"neovim/nvim-lspconfig",
 		event = "BufReadPost",
@@ -310,6 +318,7 @@ return {
 					["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 				}),
 				sources = cmp.config.sources({
+					{ name = "lazydev", group_index = 0 },
 					{ name = "nvim_lsp" },
 					-- { name = 'vsnip' }, -- For vsnip users.
 					{ name = "luasnip" }, -- For luasnip users.
