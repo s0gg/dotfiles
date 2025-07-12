@@ -70,6 +70,7 @@ in
     pkgs.awscli2
     pkgs.bat
     pkgs.clojure-lsp
+    pkgs.cobra-cli
     pkgs.dig
     pkgs.direnv
     pkgs.eza
