@@ -78,6 +78,7 @@ in
     pkgs.gh
     pkgs.ghq
     pkgs.git
+    pkgs.go
     pkgs.httpx
     pkgs.k9s
     pkgs.lua-language-server
