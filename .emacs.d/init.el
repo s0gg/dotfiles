@@ -46,7 +46,6 @@
 (setenv "GHQ_ROOT" (concat (getenv "HOME") "/.local/ghq"))
 (setq exec-path (append exec-path (list (concat (getenv "HOME") "/go/bin"))))
 (setq exec-path (append exec-path (list (concat (getenv "HOME") "/.deno/bin"))))
-(setq exec-path (append exec-path (list (concat (getenv "HOME") "/.volta/bin"))))
 (setq rbenv-path (concat (getenv "HOME") "/.rbenv/shims"))
 (setq exec-path (append exec-path (list rbenv-path)))
 
@@ -355,8 +354,17 @@
   :hook
   ((ruby-mode . lsp)
    (go-mode . lsp)
+   (python-mode . lsp)
+   (python-ts-mode . lsp)
    (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
+
+(use-package lsp-pyright
+  :ensure t
+  :custom (lsp-pyright-langserver-command "basedpyright")
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp))))
 
 (use-package lsp-ui
   :commands lsp-ui-mode
@@ -589,6 +597,41 @@
   (aidermacs-use-architect-mode t)
   (aidermacs-default-model "o3-mini"))
 
+(use-package copilot-chat
+  :ensure t)
+
+(use-package csv-mode
+  :ensure t)
+
+(use-package fish-mode
+  :ensure t)
+
+(use-package blamer
+  :ensure t
+  :bind (("s-i" . blamer-show-commit-info)
+         ("C-c i" . blamer-show-posframe-commit-info))
+  :defer 20
+  :custom
+  (blamer-idle-time 0.3)
+  (blamer-min-offset 70)
+  :custom-face
+  (blamer-face ((t :foreground "#7a88cf"
+                    :background nil
+                    :height 140
+                    :italic t)))
+  :config
+  (global-blamer-mode 1))
+
+(use-package vterm
+  :ensure t)
+
+(use-package claude-code :ensure t
+  :vc (:url "https://github.com/stevemolitor/claude-code.el" :rev :newest)
+  :config
+  (claude-code-mode)
+  (setq claude-code-terminal-backend 'vterm)
+  :bind-keymap ("C-c l" . claude-code-command-map))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -596,17 +639,19 @@
  ;; If there is more than one, they won't work right.
  '(ignored-local-variable-values '((lsp-enabled-clients deno-ls)))
  '(package-selected-packages
-   '(affe aidermacs all-the-icons astro-ts-mode cape catppuccin-theme
-          cider consult-gh-embark consult-ghq copilot corfu-prescient
-          direnv elfeed expand-region git-gutter go-mode indent-bars
-          lsp-treemacs lsp-ui magit marginalia nerd-icons-corfu
-          nix-mode orderless org-bullets org-nix-shell org-roam
-          org-super-agenda puni rust-mode slime tide tree-sitter-langs
-          treesit-auto typescript-mode vertico-prescient web-mode
-          yasnippet))
+   '(affe aidermacs all-the-icons astro-ts-mode blamer cape
+          catppuccin-theme cider claude-code consult-gh-embark
+          consult-ghq copilot copilot-chat corfu-prescient csv-mode
+          direnv elfeed expand-region fish-mode git-gutter go-mode
+          indent-bars lsp-pyright lsp-treemacs lsp-ui magit marginalia
+          nerd-icons-corfu nix-mode orderless org-bullets
+          org-nix-shell org-roam org-super-agenda puni rust-mode slime
+          tide tree-sitter-langs treesit-auto typescript-mode
+          vertico-prescient vterm web-mode yasnippet))
  '(package-vc-selected-packages
-   '((copilot :url "https://github.com/copilot-emacs/copilot.el" :branch
-              "main"))))
+   '((claude-code :url "https://github.com/stevemolitor/claude-code.el")
+     (copilot :url "https://github.com/copilot-emacs/copilot.el"
+              :branch "main"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
