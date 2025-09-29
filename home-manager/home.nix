@@ -85,10 +85,12 @@ in
     pkgs.k9s
     pkgs.lua-language-server
     pkgs.minikube
+    pkgs.opentofu
     pkgs.ripgrep
     pkgs.subfinder
     pkgs.tmux
     pkgs.uv
+    pkgs.pipx
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -156,6 +158,8 @@ in
         # Commands to run in interactive sessions can go here
         abbr mrl 'cd "$GHQ_ROOT/$(ghq list | fzf)"'
         abbr ll 'eza --icons -lahF'
+        set --export BUN_INSTALL "$HOME/.bun"
+        set --export PATH $BUN_INSTALL/bin $PATH
       '';
     };
 
