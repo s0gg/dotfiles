@@ -546,4 +546,9 @@ return {
 		---@type quicker.SetupOptions
 		opts = {},
 	},
+  {
+    'lambdalisue/nvim-aibo',
+    event = 'VeryLazy',
+    opts = {}
+  }
 }
