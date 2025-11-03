@@ -6,19 +6,9 @@ return {
 		priority = 1000,
 		config = function()
 			require("catppuccin").setup({
+				flavour = "latte",
 				transparent_background = true,
-				integrations = {
-					cmp = true,
-					gitsigns = true,
-					which_key = true,
-					native_lsp = {
-						enabled = true,
-					},
-					treesitter = true,
-					telescope = {
-						enabled = true,
-					},
-				},
+				auto_integrations = true,
 			})
 			vim.cmd.colorscheme("catppuccin")
 		end,
@@ -546,9 +536,4 @@ return {
 		---@type quicker.SetupOptions
 		opts = {},
 	},
-  {
-    'lambdalisue/nvim-aibo',
-    event = 'VeryLazy',
-    opts = {}
-  }
 }
