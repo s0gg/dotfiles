@@ -6,7 +6,7 @@ return {
 		priority = 1000,
 		config = function()
 			require("catppuccin").setup({
-				flavour = "latte",
+				flavour = "mocha",
 				transparent_background = true,
 				auto_integrations = true,
 			})
