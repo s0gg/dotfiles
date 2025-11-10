@@ -29,11 +29,30 @@ return {
 		"lambdalisue/gin.vim",
 		event = "VeryLazy",
 		config = function()
-			vim.keymap.set("n", "<space>gi", "<cmd>GinStatus<CR>", { silent = true })
+			vim.keymap.set("n", "<space>gs", "<cmd>GinStatus<CR>", { silent = true })
+			vim.keymap.set("n", "<space>gl", "<cmd>GinLog<CR>", { silent = true })
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = "gin-status",
 				callback = function()
-					vim.keymap.set("n", "rr", "<Plug>(gin-action-restore)", { silent = true })
+					vim.keymap.set("n", "rr", "<Plug>(gin-action-restore)", { silent = true, buffer = true })
+					vim.keymap.set("n", "cc", "<cmd>Gin commit<cr>", { silent = true, buffer = true })
+				end,
+			})
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "gin-log",
+				callback = function()
+					vim.keymap.set(
+						"n",
+						"if",
+						"<Plug>(gin-action-fixup:instant-fixup)",
+						{ silent = true, buffer = true }
+					)
+					vim.keymap.set(
+						"n",
+						"ir",
+						"<Plug>(gin-action-fixup:instant-reword)",
+						{ silent = true, buffer = true }
+					)
 				end,
 			})
 		end,
