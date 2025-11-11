@@ -1,6 +1,6 @@
 {
   "Comment.nvim": { "branch": "master", "commit": "e30b7f2008e52442154b66f7c519bfd2f1e32acb" },
-  "CopilotChat.nvim": { "branch": "main", "commit": "db56110b19c702053e86d54b48d8d570c59d0b6b" },
+  "CopilotChat.nvim": { "branch": "main", "commit": "ce485330c76a5b63ccfb02b7dd18890a748ca558" },
   "LuaSnip": { "branch": "master", "commit": "3732756842a2f7e0e76a7b0487e9692072857277" },
   "aerial.nvim": { "branch": "master", "commit": "5e687b5a14004fa2dd9eccbee042b96869fe1557" },
   "catppuccin": { "branch": "main", "commit": "234fc048de931a0e42ebcad675bf6559d75e23df" },
@@ -11,8 +11,8 @@
   "cmp-path": { "branch": "main", "commit": "c642487086dbd9a93160e1679a1327be111cbc25" },
   "cmp_luasnip": { "branch": "master", "commit": "98d9cb5c2c38532bd9bdb481067b20fea8f32e90" },
   "conform.nvim": { "branch": "master", "commit": "cde4da5c1083d3527776fee69536107d98dae6c9" },
-  "conjure": { "branch": "main", "commit": "dab027e0cb710beb070424a117b9065279f6083d" },
-  "copilot.lua": { "branch": "master", "commit": "927053b34f6d0286599370427aad3b9628e4cf12" },
+  "conjure": { "branch": "main", "commit": "230de4232577ef52e2044ea4ab5f65cd926a11e2" },
+  "copilot.lua": { "branch": "master", "commit": "5bde2cfe01f049f522eeb8b52c5c723407db8bdf" },
   "copilot.vim": { "branch": "release", "commit": "da369d90cfd6c396b1d0ec259836a1c7222fb2ea" },
   "denops.vim": { "branch": "main", "commit": "5cfca39988a36e42d81b925264fc846077a727e3" },
   "dial.nvim": { "branch": "master", "commit": "f0404ec1f83a03f2c3457e60087c6331d1cbb83f" },
