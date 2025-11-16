@@ -31,6 +31,7 @@ return {
 		config = function()
 			vim.keymap.set("n", "<space>gs", "<cmd>GinStatus<CR>", { silent = true })
 			vim.keymap.set("n", "<space>gl", "<cmd>GinLog<CR>", { silent = true })
+			vim.keymap.set("n", "<space>gc", "<cmd>GinChaperon<CR>", { silent = true })
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = "gin-status",
 				callback = function()
@@ -82,7 +83,6 @@ return {
 				highlight = { enable = true },
 				incremental_selection = { enable = true },
 				textobjects = { enable = true },
-				autotag = { enable = true },
 				modules = {},
 				ignore_install = {},
 			})
@@ -91,6 +91,12 @@ return {
 			parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
 		end,
 	},
+  {
+    "windwp/nvim-ts-autotag",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    event = "BufReadPre",
+    opts = {}
+  },
 	{
 		"folke/lazydev.nvim",
 		ft = "lua",
@@ -170,6 +176,10 @@ return {
 				capabilities = capabilities,
 			})
 			lspconfig.gopls.setup({
+				capabilities = capabilities,
+			})
+			lspconfig.prismals.setup({
+        filetypes = { "prisma" },
 				capabilities = capabilities,
 			})
 			lspconfig.ts_ls.setup({
