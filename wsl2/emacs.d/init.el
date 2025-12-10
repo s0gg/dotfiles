@@ -396,6 +396,17 @@
   :ensure t
   :after sly)
 
+(leaf expand-region
+  :doc "Increase selected region by semantic units"
+  :req "emacs-24.4"
+  :tag "region" "marking" "emacs>=24.4"
+  :url "https://github.com/magnars/expand-region.el"
+  :added "2025-12-10"
+  :emacs>= 24.4
+  :ensure t
+  :config
+  (global-set-key (kbd "C-=") 'er/expand-region))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
