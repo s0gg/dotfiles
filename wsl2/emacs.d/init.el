@@ -5,12 +5,13 @@
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 (set-default 'truncate-lines t)
+(setq ring-bell-function 'ignore)
 
-(add-to-list 'default-frame-alist '(font . "HackGen Console NF-12"))
+(add-to-list 'default-frame-alist '(font . "HackGen Console NF-11"))
 (set-face-attribute 'default t
 		    :family "HackGen Console NF"
-		    :height  120)
-(set-frame-font "HackGen Console NF-12" nil t)
+		    :height  110)
+(set-frame-font "HackGen Console NF-11" nil t)
 
 (eval-and-compile
   (customize-set-variable
@@ -160,6 +161,23 @@
   :emacs>= 28.1
   :ensure t)
 
+(leaf git-gutter
+  :doc "Port of Sublime Text plugin GitGutter"
+  :req "emacs-25.1"
+  :tag "emacs>=25.1"
+  :url "https://github.com/emacsorphanage/git-gutter"
+  :added "2025-11-18"
+  :emacs>= 25.1
+  :ensure t
+  :config
+  (global-git-gutter-mode +1)
+  (global-set-key (kbd "C-x v =") 'git-gutter:popup-hunk)
+  (global-set-key (kbd "C-x v p") 'git-gutter:previous-hunk)
+  (global-set-key (kbd "C-x v n") 'git-gutter:next-hunk)
+  (global-set-key (kbd "C-x v s") 'git-gutter:stage-hunk)
+  (global-set-key (kbd "C-x v r") 'git-gutter:stage-hunk)
+  (global-set-key (kbd "C-x v SPC") #'git-gutter:mark-hunk))
+
 (leaf markdown-mode
   :doc "Major mode for Markdown-formatted text"
   :req "emacs-28.1"
@@ -244,7 +262,9 @@
   :added "2025-11-16"
   :emacs>= 28.1
   :ensure t
-  :after spinner markdown-mode lv eldoc)
+  :after spinner markdown-mode lv eldoc
+  :config
+  (add-hook 'typescript-ts-mode-hook 'lsp))
 
 (leaf flycheck
   :doc "On-the-fly syntax checking."
@@ -285,6 +305,96 @@
   :ensure t
   :config
   (load-theme 'catppuccin :no-confirm))
+
+(leaf prisma-ts-mode
+  :doc "Major mode for prisma using tree-sitter"
+  :req "emacs-29.1"
+  :tag "tree-sitter" "languages" "prisma" "emacs>=29.1"
+  :url "https://github.com/nverno/prisma-ts-mode"
+  :added "2025-11-18"
+  :emacs>= 29.1
+  :ensure t)
+
+(leaf yaml-ts-mode
+  :doc "tree-sitter support for YAML"
+  :tag "builtin"
+  :added "2025-11-20"
+  :mode "\\.ya?ml\\'")
+
+(leaf mermaid-mode
+  :doc "Major mode for working with mermaid graphs"
+  :req "emacs-25.3"
+  :tag "processes" "tools" "graphs" "mermaid" "emacs>=25.3"
+  :url "https://github.com/abrochard/mermaid-mode"
+  :added "2025-11-27"
+  :emacs>= 25.3
+  :ensure t)
+
+(leaf clojure-ts-mode
+  :doc "Major mode for Clojure code"
+  :req "emacs-30.1"
+  :tag "lisp" "clojurescript" "clojure" "languages" "emacs>=30.1"
+  :url "http://github.com/clojure-emacs/clojure-ts-mode"
+  :added "2025-12-07"
+  :emacs>= 30.1
+  :ensure t)
+
+(leaf cider
+  :doc "Clojure Interactive Development Environment that Rocks"
+  :req "emacs-27" "clojure-mode-5.19" "parseedn-1.2.1" "queue-0.2" "spinner-1.7" "seq-2.22" "sesman-0.3.2" "transient-0.4.1"
+  :tag "cider" "clojure" "languages" "emacs>=27"
+  :url "https://www.github.com/clojure-emacs/cider"
+  :added "2025-12-07"
+  :emacs>= 27
+  :ensure t
+  :after clojure-mode parseedn queue spinner sesman)
+
+(leaf sly
+  :doc "Sylvester the Cat's Common Lisp IDE"
+  :req "emacs-24.5"
+  :tag "sly" "lisp" "languages" "emacs>=24.5"
+  :url "https://github.com/joaotavora/sly"
+  :added "2025-12-09"
+  :emacs>= 24.5
+  :ensure t)
+
+(leaf sly-quicklisp
+  :doc "Quicklisp support for SLY"
+  :req "sly-1.0.0.-2.2"
+  :tag "sly" "lisp" "languages"
+  :url "https://github.com/capitaomorte/sly-quicklisp"
+  :added "2025-12-09"
+  :ensure t
+  :after sly)
+
+(leaf sly-asdf
+  :doc "ASDF system support for SLY"
+  :req "emacs-24.3" "sly-1.0.0.-2.2" "popup-0.5.3"
+  :tag "asdf" "sly" "lisp" "languages" "emacs>=24.3"
+  :url "https://github.com/mmgeorge/sly-asdf"
+  :added "2025-12-09"
+  :emacs>= 24.3
+  :ensure t
+  :after sly)
+
+(leaf sly-macrostep
+  :doc "Fancy macro-expansion via macrostep.el"
+  :req "sly-1.0.0.-2.2" "macrostep-0.9"
+  :tag "sly" "lisp" "languages"
+  :url "https://github.com/capitaomorte/sly-macrostep"
+  :added "2025-12-09"
+  :ensure t
+  :after sly macrostep)
+
+(leaf sly-overlay
+  :doc "Overlay Common Lisp evaluation results"
+  :req "emacs-24.4" "sly-1.0"
+  :tag "lisp" "emacs>=24.4"
+  :url "https://github.com/fosskers/sly-overlay"
+  :added "2025-12-09"
+  :emacs>= 24.4
+  :ensure t
+  :after sly)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
