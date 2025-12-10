@@ -6,6 +6,7 @@
 (setq auto-save-default nil)
 (set-default 'truncate-lines t)
 (setq ring-bell-function 'ignore)
+(setq display-warning-minimum-level :error)
 
 (add-to-list 'default-frame-alist '(font . "HackGen Console NF-11"))
 (set-face-attribute 'default t
