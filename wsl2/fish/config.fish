@@ -5,7 +5,7 @@ set -gx VOLTA_HOME $HOME/.volta
 fish_add_path $VOLTA_HOME/bin
 fish_add_path $HOME/.cargo/bin
 fish_add_path $HOME/.deno/bin
-set -gx GHQ_ROOT $HOME/dev
+set -gx GHQ_ROOT $HOME/.local/ghq
 
 if status is-interactive
     set -gx EDITOR nvim
@@ -16,4 +16,5 @@ if status is-interactive
     abbr -a mypr "gh pr list --assignee @me"
     abbr -a pull git pull
     abbr -a st git status
+    abbr -a mrl 'cd $GHQ_ROOT/$(ghq list | fzf)'
 end
