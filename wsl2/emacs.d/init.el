@@ -8,11 +8,11 @@
 (setq ring-bell-function 'ignore)
 (setq display-warning-minimum-level :error)
 
-(add-to-list 'default-frame-alist '(font . "HackGen Console NF-11"))
+(add-to-list 'default-frame-alist '(font . "HackGen Console NF-10"))
 (set-face-attribute 'default t
 		    :family "HackGen Console NF"
-		    :height  110)
-(set-frame-font "HackGen Console NF-11" nil t)
+		    :height  100)
+(set-frame-font "HackGen Console NF-10" nil t)
 
 (eval-and-compile
   (customize-set-variable
@@ -89,6 +89,14 @@
   :ensure t
   :global-minor-mode t)
 
+(leaf orderless
+  :doc "Completion style for matching regexps in any order"
+  :ensure t
+  :config
+  (setq completion-styles '(orderless basic))
+  (setq completion-category-defaults nil)
+  (setq completion-category-overrides '((file (styles partial-completion)))))
+
 (leaf marginalia
   :ensure t
   :global-minor-mode t)
@@ -101,7 +109,14 @@
   :added "2025-11-16"
   :emacs>= 29.1
   :ensure t
-  :after consult)
+  :after consult
+  :bind (("M-s g" . affe-grep)
+         ("M-s F" . affe-find))
+  :config
+  (defun affe-orderless-regexp-compiler (input _type _ignorecase)
+    (setq input (cdr (orderless-compile input)))
+    (cons input (apply-partially #'orderless--highlight input t)))
+  (setq affe-regexp-compiler #'affe-orderless-regexp-compiler))
 
 (leaf embark
   :doc "Conveniently act on minibuffer completions."
@@ -121,7 +136,11 @@
   :added "2025-11-16"
   :emacs>= 29.1
   :ensure t
-  :after compat)
+  :after compat
+  :bind (("M-s l" . consult-line)
+         ("C-x b" . consult-buffer)
+         ("M-s r" . consult-ripgrep)
+         ("M-s f" . consult-fd)))
 
 (leaf consult-gh
   :doc "Consulting GitHub Client."
