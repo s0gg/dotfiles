@@ -118,6 +118,13 @@
     (cons input (apply-partially #'orderless--highlight input t)))
   (setq affe-regexp-compiler #'affe-orderless-regexp-compiler))
 
+(defun ediff-with-current-buffer (file)
+  "Ediff FILE with the current buffer's file."
+  (let ((current-file (buffer-file-name)))
+    (unless current-file
+      (error "Current buffer is not visiting a file"))
+    (ediff-files (expand-file-name file) current-file)))
+
 (leaf embark
   :doc "Conveniently act on minibuffer completions."
   :req "emacs-28.1" "compat-30"
@@ -126,7 +133,10 @@
   :added "2025-11-16"
   :emacs>= 28.1
   :ensure t
-  :after compat)
+  :after compat
+  :bind (("C-." . embark-act))
+  :config
+  (define-key embark-file-map (kbd "D") #'ediff-with-current-buffer))
 
 (leaf consult
   :doc "Consulting completing-read"
@@ -150,7 +160,25 @@
   :added "2025-11-16"
   :emacs>= 29.4
   :ensure t
-  :after consult markdown-mode ox-gfm yaml)
+  :after consult markdown-mode ox-gfm yaml
+  :config
+  (defun my/consult-gh-pr-review-requested ()
+    "List PRs requesting review from me in the current repo."
+    (interactive)
+    (let* ((repo (consult-gh--get-repo-from-directory))
+           (consult-gh-search-prs-args (append consult-gh-search-prs-args (list "is:open"))))
+      (unless repo
+        (user-error "Not in a GitHub repository"))
+      (consult-gh-search-prs "review-requested:@me" repo)))
+
+  (defun my/consult-gh-pr-assigned ()
+    "List PRs assigned to me in the current repo."
+    (interactive)
+    (let* ((repo (consult-gh--get-repo-from-directory))
+           (consult-gh-search-prs-args (append consult-gh-search-prs-args (list "is:open"))))
+      (unless repo
+        (user-error "Not in a GitHub repository"))
+      (consult-gh-search-prs "assignee:@me" repo))))
 
 (leaf consult-ghq
   :doc "Ghq interface using consult."
@@ -170,7 +198,18 @@
   :added "2025-11-16"
   :emacs>= 29.4
   :ensure t
-  :after consult consult-gh embark-consult which-key)
+  :after consult consult-gh embark-consult which-key
+  :global-minor-mode consult-gh-embark-mode
+  :config
+  (defun my/consult-gh-embark-pr-checkout (cand)
+    "Checkout the PR of CAND using `gh pr checkout'."
+    (let ((repo (get-text-property 0 :repo cand))
+          (number (get-text-property 0 :number cand)))
+      (unless (and repo number)
+        (user-error "Cannot determine repo or PR number"))
+      (let ((output (shell-command-to-string (format "gh pr checkout %s -R %s" number repo))))
+        (message "gh pr checkout: %s" (string-trim output)))))
+  (define-key consult-gh-embark-prs-actions-map (kbd "C") '("gh pr checkout" . my/consult-gh-embark-pr-checkout)))
 
 (leaf magit
   :doc "A Git porcelain inside Emacs"
@@ -211,8 +250,8 @@
   :doc "tree sitter support for TypeScript"
   :tag "builtin"
   :added "2025-11-15"
-  :mode (("\\\\.tsx\\\\'" . tsx-ts-mode)
-	 ("\\\\.ts\\\\'" . tsx-ts-mode))
+  :mode (("\\.tsx\\'" . tsx-ts-mode)
+	 ("\\.ts\\'" . typescript-ts-mode))
   :config
   (setq typescript-ts-mode-indent-offset 2))
 
@@ -284,7 +323,8 @@
   :ensure t
   :after spinner markdown-mode lv eldoc
   :config
-  (add-hook 'typescript-ts-mode-hook 'lsp))
+  (add-hook 'typescript-ts-mode-hook 'lsp)
+  (add-hook 'tsx-ts-mode-hook 'lsp))
 
 (leaf flycheck
   :doc "On-the-fly syntax checking."
@@ -313,7 +353,11 @@
   :added "2025-11-16"
   :emacs>= 27.2
   :ensure t
-  :after editorconfig jsonrpc track-changes)
+  :after editorconfig jsonrpc track-changes
+  :hook ((lsp-mode-hook . copilot-mode))
+  :bind (:copilot-completion-map
+         ("<tab>" . copilot-accept-completion)
+         ("TAB" . copilot-accept-completion)))
 
 (leaf catppuccin-theme
   :doc "Catppuccin for Emacs - 🍄 Soothing pastel theme for Emacs"
@@ -426,6 +470,47 @@
   :ensure t
   :config
   (global-set-key (kbd "C-=") 'er/expand-region))
+
+(leaf vterm
+  :doc "Fully-featured terminal emulator"
+  :req "emacs-25.1"
+  :tag "terminals" "emacs>=25.1"
+  :url "https://github.com/akermu/emacs-libvterm"
+  :added "2026-03-03"
+  :emacs>= 25.1
+  :ensure t)
+
+(defun insert-current-time ()
+  "Insert current time in HH:mm format."
+  (interactive)
+  (insert (format-time-string "%H:%M")))
+
+(defun diff-current-buffer-with-file ()
+  "Fuzzy-find a file with consult-fd and ediff it with the current buffer's file."
+  (interactive)
+  (let ((current-file (buffer-file-name)))
+    (unless current-file
+      (error "Current buffer is not visiting a file"))
+    (let* ((other-buffer (consult-fd))
+           (other-file (buffer-file-name other-buffer)))
+      (unless other-file
+        (error "Selected buffer is not visiting a file"))
+      (ediff-files other-file current-file))))
+
+(leaf org
+  :bind (:org-mode-map
+         ("C-c t" . insert-current-time)))
+
+(leaf git-link
+  :doc "Get the GitHub/Bitbucket/GitLab URL for a buffer location"
+  :req "emacs-24.3"
+  :tag "convenience" "azure" "aws" "sourcehut" "gitlab" "bitbucket" "github" "vc" "git" "emacs>=24.3"
+  :url "https://github.com/sshaw/git-link"
+  :added "2026-03-09"
+  :emacs>= 24.3
+  :ensure t
+  :config
+  (setq git-link-use-commit t))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
