@@ -78,12 +78,6 @@ return {
 		end,
 	},
 	{
-		"windwp/nvim-ts-autotag",
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
-		event = "BufReadPre",
-		opts = {},
-	},
-	{
 		"folke/lazydev.nvim",
 		ft = "lua",
 		opts = {
@@ -332,36 +326,6 @@ return {
 			vim.o.timeoutlen = 300
 		end,
 	},
-	{
-		"hrsh7th/nvim-insx",
-		event = "InsertEnter",
-		config = function()
-			require("insx.preset.standard").setup()
-			local insx = require("insx")
-			insx.add("<%= ", {
-				enabled = function()
-					return vim.bo.filetype == "eruby"
-				end,
-				action = function(ctx)
-					ctx.send("<%= ")
-					local row, col = ctx.row(), ctx.col()
-					ctx.send(" %>")
-					ctx.move(row, col)
-				end,
-			})
-			insx.add("<% ", {
-				enabled = function()
-					return vim.bo.filetype == "eruby"
-				end,
-				action = function(ctx)
-					ctx.send("<% ")
-					local row, col = ctx.row(), ctx.col()
-					ctx.send(" %>")
-					ctx.move(row, col)
-				end,
-			})
-		end,
-	},
 	{ "nvim-lua/plenary.nvim" },
 	{
 		"numToStr/Comment.nvim",
@@ -369,44 +333,6 @@ return {
 		config = function()
 			require("Comment").setup()
 		end,
-	},
-	{
-		"folke/trouble.nvim",
-		opts = {},
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		cmd = "Trouble",
-		keys = {
-			{
-				"<leader>xx",
-				"<cmd>Trouble diagnostics toggle<cr>",
-				desc = "Diagnostics (Trouble)",
-			},
-			{
-				"<leader>xX",
-				"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-				desc = "Buffer Diagnostics (Trouble)",
-			},
-			{
-				"<leader>cs",
-				"<cmd>Trouble symbols toggle focus=false<cr>",
-				desc = "Symbols (Trouble)",
-			},
-			{
-				"<leader>cl",
-				"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-				desc = "LSP Definitions / references / ... (Trouble)",
-			},
-			{
-				"<leader>xL",
-				"<cmd>Trouble loclist toggle<cr>",
-				desc = "Location List (Trouble)",
-			},
-			{
-				"<leader>xQ",
-				"<cmd>Trouble qflist toggle<cr>",
-				desc = "Quickfix List (Trouble)",
-			},
-		},
 	},
 	{
 		"kylechui/nvim-surround",
@@ -424,19 +350,6 @@ return {
 		end,
 	},
 	{
-		"lambdalisue/kensaku.vim",
-		event = "VeryLazy",
-		dependencies = { "vim-denops/denops.vim" },
-	},
-	{
-		"lambdalisue/kensaku-search.vim",
-		event = "VeryLazy",
-		require = "lambdalisue/kensaku.vim",
-		config = function()
-			vim.keymap.set("c", "<CR>", "<Plug>(kensaku-search-replace)<cr>")
-		end,
-	},
-	{
 		"shellRaining/hlchunk.nvim",
 		event = "UIEnter",
 		config = function()
@@ -445,10 +358,6 @@ return {
 	},
 	{
 		"stevearc/overseer.nvim",
-		event = "VeryLazy",
-	},
-	{
-		"monaqa/dial.nvim",
 		event = "VeryLazy",
 	},
 	{
@@ -468,61 +377,8 @@ return {
 		end,
 	},
 	{
-		"stevearc/conform.nvim",
-		event = "VeryLazy",
-		opts = {},
-		config = function()
-			require("conform").setup({
-				formatters_by_ft = {
-					javascript = { "biome" },
-					lua = { "stylua" },
-					python = { "black" },
-					rust = { "rustfmt" },
-					ruby = { "rufo" },
-					typescript = { "biome" },
-					typescriptreact = { "biome" },
-				},
-			})
-			vim.keymap.set("v", "<space>ff", function()
-				require("conform").format({ async = true, lsp_fallback = true })
-			end)
-			vim.keymap.set("n", "<space>cf", function()
-				require("conform").format({ async = true, lsp_fallback = true })
-			end)
-		end,
-	},
-	{
-		"tani/dmacro.nvim",
-		config = function()
-			require("dmacro").setup({
-				dmacro_key = "<C-t>",
-			})
-		end,
-	},
-	{
 		"thinca/vim-qfreplace",
 		event = "VeryLazy",
-	},
-	{
-		"Olical/conjure",
-		ft = { "clojure", "fennel", "python" }, -- etc
-		lazy = true,
-		init = function()
-			vim.g["conjure#mapping#doc_word"] = "gk"
-		end,
-
-		-- Optional cmp-conjure integration
-		dependencies = { "PaterJason/cmp-conjure" },
-	},
-	{
-		"PaterJason/cmp-conjure",
-		lazy = true,
-		config = function()
-			local cmp = require("cmp")
-			local config = cmp.get_config()
-			table.insert(config.sources, { name = "conjure" })
-			return cmp.setup(config)
-		end,
 	},
 	{
 		"stevearc/quicker.nvim",
@@ -530,51 +386,5 @@ return {
 		---@module "quicker"
 		---@type quicker.SetupOptions
 		opts = {},
-	},
-	{
-		"nvim-neotest/neotest",
-		event = "VeryLazy",
-		dependencies = {
-			"nvim-neotest/nvim-nio",
-			"nvim-lua/plenary.nvim",
-			"antoinemadec/FixCursorHold.nvim",
-			"nvim-treesitter/nvim-treesitter",
-			"marilari88/neotest-vitest",
-		},
-		config = function()
-			require("neotest").setup({
-				adapters = {
-					require("neotest-vitest"),
-				},
-			})
-
-			vim.api.nvim_set_keymap(
-				"n",
-				"<leader>twr",
-				"<cmd>lua require('neotest').run.run({ vitestCommand = 'bun run test:watch' })<cr>",
-				{ desc = "Run Watch" }
-			)
-
-			vim.api.nvim_set_keymap(
-				"n",
-				"<leader>twf",
-				"<cmd>lua require('neotest').run.run({ vim.fn.expand('%'), vitestCommand = 'bun run test:watch' })<cr>",
-				{ desc = "Run Watch File" }
-			)
-
-			vim.api.nvim_set_keymap(
-				"n",
-				"<leader>twa",
-				"<cmd>lua require('neotest').run.run({ vim.fn.expand('%'), vitestCommand = 'bun run test:watch' }); require('neotest').summary.open()<cr>",
-				{ desc = "Run Watch with Summary" }
-			)
-
-			vim.api.nvim_set_keymap(
-				"n",
-				"<leader>te",
-				"<cmd>lua require('neotest').output.open({ enter = true })<cr>",
-				{ desc = "Show Test Output" }
-			)
-		end,
 	},
 }
