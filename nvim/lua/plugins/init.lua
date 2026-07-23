@@ -386,14 +386,14 @@ return {
 			end
 
 			vim.cmd([[
-        call skkeleton#config({
-          \ 'eggLikeNewline': v:true,
-          \ 'globalDictionaries': [']] .. dictionary_path .. [[']
-          \ })
-      ]])
+				call skkeleton#config({
+				\ 'eggLikeNewline': v:true,
+				\ 'globalDictionaries': [']] .. dictionary_path .. [[']
+				\ })
+			]])
 			vim.cmd([[
-        call skkeleton#register_keymap('input', ';', 'henkanPoint')
-      ]])
+				call skkeleton#register_keymap('input', ';', 'henkanPoint')
+			]])
 		end,
 	},
 	{
