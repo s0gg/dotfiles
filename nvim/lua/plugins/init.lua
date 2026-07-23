@@ -68,16 +68,6 @@ return {
 		end,
 	},
 	{
-		"nvim-treesitter/nvim-treesitter",
-		lazy = false,
-		build = ":TSUpdate",
-		config = function()
-			require("nvim-treesitter").setup({
-				install_dir = vim.fn.stdpath("data") .. "/site",
-			})
-		end,
-	},
-	{
 		"folke/lazydev.nvim",
 		ft = "lua",
 		opts = {
@@ -364,17 +354,6 @@ return {
 		"j-hui/fidget.nvim",
 		lazy = false,
 		opts = {},
-	},
-	{
-		"stevearc/aerial.nvim",
-		opts = {},
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-			"nvim-tree/nvim-web-devicons",
-		},
-		config = function()
-			require("aerial").setup()
-		end,
 	},
 	{
 		"thinca/vim-qfreplace",
