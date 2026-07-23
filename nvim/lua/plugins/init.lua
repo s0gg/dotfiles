@@ -69,34 +69,20 @@ return {
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
-		event = "VeryLazy",
-		build = function()
-			require("nvim-treesitter.install").update({ with_sync = true })()
-		end,
+		lazy = false,
+		build = ":TSUpdate",
 		config = function()
-			local config = require("nvim-treesitter.configs")
-
-			config.setup({
-				ensure_installed = { "lua" },
-				auto_install = true,
-				sync_install = false,
-				highlight = { enable = true },
-				incremental_selection = { enable = true },
-				textobjects = { enable = true },
-				modules = {},
-				ignore_install = {},
+			require("nvim-treesitter").setup({
+				install_dir = vim.fn.stdpath("data") .. "/site",
 			})
-
-			local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-			parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
 		end,
 	},
-  {
-    "windwp/nvim-ts-autotag",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
-    event = "BufReadPre",
-    opts = {}
-  },
+	{
+		"windwp/nvim-ts-autotag",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		event = "BufReadPre",
+		opts = {},
+	},
 	{
 		"folke/lazydev.nvim",
 		ft = "lua",
@@ -116,7 +102,7 @@ return {
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-			local lspconfig = require("lspconfig")
+			local lspconfig = vim.lsp
 			local function add_ruby_deps_command(client, bufnr)
 				vim.api.nvim_buf_create_user_command(bufnr, "ShowRubyDeps", function(opts)
 					local params = vim.lsp.util.make_text_document_params()
@@ -149,7 +135,7 @@ return {
 				})
 			end
 
-			lspconfig.lua_ls.setup({
+			lspconfig.config("lua_ls", {
 				capabilities = capabilities,
 				settings = {
 					Lua = {
@@ -162,57 +148,19 @@ return {
 					},
 				},
 			})
-			lspconfig.ruby_lsp.setup({
-				filetypes = { "ruby", "erb" },
-				capabilities = capabilities,
-				on_attach = function(client, buffer)
-					add_ruby_deps_command(client, buffer)
-				end,
-			})
-			lspconfig.rust_analyzer.setup({
+			lspconfig.config("rust_analyzer", {
 				capabilities = capabilities,
 			})
-			lspconfig.zls.setup({
+			lspconfig.config("prismals", {
+				filetypes = { "prisma" },
 				capabilities = capabilities,
 			})
-			lspconfig.gopls.setup({
+			lspconfig.config("ts_ls", {
 				capabilities = capabilities,
-			})
-			lspconfig.prismals.setup({
-        filetypes = { "prisma" },
-				capabilities = capabilities,
-			})
-			lspconfig.ts_ls.setup({
-				capabilities = capabilities,
-				root_dir = lspconfig.util.root_pattern("package.json"),
 				single_file_support = false,
 			})
-			lspconfig.vtsls.setup({
+			lspconfig.config("vtsls", {
 				capabilities = capabilities,
-			})
-			lspconfig.clangd.setup({
-				init_options = {
-					fallbackFlags = { "-std=c++20" },
-				},
-				capabilities = capabilities,
-			})
-			lspconfig.denols.setup({
-				capabilities = capabilities,
-				root_dir = lspconfig.util.root_pattern("deno.json"),
-				init_options = {
-					list = true,
-					unstable = true,
-					suggest = {
-						imports = {
-							hosts = {
-								["https://deno.land"] = true,
-								["https://cdn.nest.land"] = true,
-								["https://crux.land"] = true,
-								["https://esm.sh"] = true,
-							},
-						},
-					},
-				},
 			})
 
 			-- vim.api.nvim_create_autocmd('BufReadPost', {
@@ -596,51 +544,50 @@ return {
 		---@type quicker.SetupOptions
 		opts = {},
 	},
-  {
-    "nvim-neotest/neotest",
-    event = "VeryLazy",
-    dependencies = {
-      "nvim-neotest/nvim-nio",
-      "nvim-lua/plenary.nvim",
-      "antoinemadec/FixCursorHold.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      "marilari88/neotest-vitest",
-    },
-    config = function()
-      require("neotest").setup({
-        adapters = {
-          require("neotest-vitest")
-        }
-      })
+	{
+		"nvim-neotest/neotest",
+		event = "VeryLazy",
+		dependencies = {
+			"nvim-neotest/nvim-nio",
+			"nvim-lua/plenary.nvim",
+			"antoinemadec/FixCursorHold.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			"marilari88/neotest-vitest",
+		},
+		config = function()
+			require("neotest").setup({
+				adapters = {
+					require("neotest-vitest"),
+				},
+			})
 
-      vim.api.nvim_set_keymap(
-        "n",
-        "<leader>twr",
-        "<cmd>lua require('neotest').run.run({ vitestCommand = 'bun run test:watch' })<cr>",
-        {desc = "Run Watch"}
-      )
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>twr",
+				"<cmd>lua require('neotest').run.run({ vitestCommand = 'bun run test:watch' })<cr>",
+				{ desc = "Run Watch" }
+			)
 
-      vim.api.nvim_set_keymap(
-        "n",
-        "<leader>twf",
-        "<cmd>lua require('neotest').run.run({ vim.fn.expand('%'), vitestCommand = 'bun run test:watch' })<cr>",
-        {desc = "Run Watch File"}
-      )
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>twf",
+				"<cmd>lua require('neotest').run.run({ vim.fn.expand('%'), vitestCommand = 'bun run test:watch' })<cr>",
+				{ desc = "Run Watch File" }
+			)
 
-      vim.api.nvim_set_keymap(
-        "n",
-        "<leader>twa",
-        "<cmd>lua require('neotest').run.run({ vim.fn.expand('%'), vitestCommand = 'bun run test:watch' }); require('neotest').summary.open()<cr>",
-        {desc = "Run Watch with Summary"}
-      )
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>twa",
+				"<cmd>lua require('neotest').run.run({ vim.fn.expand('%'), vitestCommand = 'bun run test:watch' }); require('neotest').summary.open()<cr>",
+				{ desc = "Run Watch with Summary" }
+			)
 
-      vim.api.nvim_set_keymap(
-        "n",
-        "<leader>te",
-        "<cmd>lua require('neotest').output.open({ enter = true })<cr>",
-        {desc = "Show Test Output"}
-      )
-
-    end
-  }
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>te",
+				"<cmd>lua require('neotest').output.open({ enter = true })<cr>",
+				{ desc = "Show Test Output" }
+			)
+		end,
+	},
 }
