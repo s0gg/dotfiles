@@ -366,4 +366,54 @@ return {
 		---@type quicker.SetupOptions
 		opts = {},
 	},
+	{
+		"vim-skk/skkeleton",
+		dependencies = { "vim-denops/denops.vim" },
+		event = "VeryLazy",
+		config = function()
+			vim.keymap.set("i", "<C-j>", "<Plug>(skkeleton-enable)", { silent = true })
+			vim.keymap.set("c", "<C-j>", "<Plug>(skkeleton-enable)", { silent = true })
+			vim.keymap.set("t", "<C-j>", "<Plug>(skkeleton-enable)", { silent = true })
+
+			local dictionary_path
+			local os_name = vim.loop.os_uname().sysname
+			if os_name == "Linux" then
+				dictionary_path = "~/.local/share/skk/SKK-JISYO.L"
+			elseif os_name == "Darwin" then
+				dictionary_path = "~/Library/Application Support/AquaSKK/SKK-JISYO.L"
+			else
+				dictionary_path = nil
+			end
+
+			vim.cmd([[
+        call skkeleton#config({
+          \ 'eggLikeNewline': v:true,
+          \ 'globalDictionaries': [']] .. dictionary_path .. [[']
+          \ })
+      ]])
+			vim.cmd([[
+        call skkeleton#register_keymap('input', ';', 'henkanPoint')
+      ]])
+		end,
+	},
+	{
+		"nvim-telescope/telescope.nvim",
+		branch = "0.1.x",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		cmd = "Telescope",
+		opts = {},
+	},
+	{
+		"vim-fall/fall.vim",
+		dependencies = { "vim-denops/denops.vim" },
+		event = "VeryLazy",
+		keys = {
+			{ "<leader>ff", "<cmd>Fall file<cr>", mode = { "n" }, desc = "Find files", silent = true },
+			{ "<leader>fg", "<cmd>Fall rg<cr>", mode = { "n" }, desc = "Find ripgrep", silent = true },
+			{ "<leader>fb", "<cmd>Fall buffer<cr>", mode = { "n" }, desc = "Find buffer", silent = true },
+			{ "<leader>fh", "<cmd>Fall help<cr>", mode = { "n" }, desc = "Find help", silent = true },
+			{ "<leader>fl", "<cmd>Fall line<cr>", mode = { "n" }, desc = "Find line", silent = true },
+			{ "<leader>fo", "<cmd>Fall oldfiles<cr>", mode = { "n" }, desc = "Find oldfiles", silent = true },
+		},
+	},
 }
