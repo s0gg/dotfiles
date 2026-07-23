@@ -6,7 +6,7 @@ return {
 		priority = 1000,
 		config = function()
 			require("catppuccin").setup({
-				flavour = "mocha",
+				flavour = "latte",
 				transparent_background = true,
 				auto_integrations = true,
 			})
@@ -186,6 +186,9 @@ return {
 				capabilities = capabilities,
 				root_dir = lspconfig.util.root_pattern("package.json"),
 				single_file_support = false,
+			})
+			lspconfig.vtsls.setup({
+				capabilities = capabilities,
 			})
 			lspconfig.clangd.setup({
 				init_options = {
