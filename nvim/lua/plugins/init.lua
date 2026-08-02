@@ -143,8 +143,11 @@ return {
 				capabilities = capabilities,
 				single_file_support = false,
 			})
-			lspconfig.config("vtsls", {
+			lspconfig.config("tsc", {
 				capabilities = capabilities,
+				single_file_support = true,
+				cmd = { "tsc", "--lsp", "--stdio" },
+				filetypes = { "typescript", "tsx", "typescriptreact" },
 			})
 
 			-- vim.api.nvim_create_autocmd('BufReadPost', {
