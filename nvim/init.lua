@@ -10,10 +10,21 @@ local opt = vim.opt
 opt.fileencoding = "utf-8"
 opt.swapfile = false
 opt.hidden = true
-if not is_wsl() then
-	-- only not in WSL because startup performance is worse
-	opt.clipboard:append({ "unnamedplus" })
-end
+-- opt.clipboard:append({ "unnamedplus" })
+opt.clipboard = "unnamedplus"
+vim.g.clipboard = {
+  name = "WslClipboard",
+  copy = {
+    ["+"] = "wl-copy",
+  },
+  paste = {
+    ["+"] = function()
+      return vim.fn.systemlist('wl-paste | tr -d "\r"')
+    end,
+    ["*"] = "wl-paste",
+  },
+  cache_enabled = 1,
+}
 opt.wildmenu = true
 opt.showcmd = true
 opt.hlsearch = true
