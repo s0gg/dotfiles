@@ -1,3 +1,5 @@
+;;; init.el --- s0gg's Emacs configuration  -*- lexical-binding: t; -*-
+
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -8,11 +10,13 @@
 (setq ring-bell-function 'ignore)
 (setq display-warning-minimum-level :error)
 
-(add-to-list 'default-frame-alist '(font . "HackGen Console NF-10"))
-(set-face-attribute 'default t
-		    :family "HackGen Console NF"
-		    :height  100)
-(set-frame-font "HackGen Console NF-10" nil t)
+(let ((font "HackGen Console NF"))
+  (add-to-list 'default-frame-alist `(font . ,(concat font "-10")))
+  (set-face-attribute 'default nil :family font :height 100)
+  (set-frame-font (concat font "-10") nil t)
+  ;; Apply HackGen to every character range (kanji, kana, symbols, etc.),
+  ;; not just Latin, so all glyphs share the same font.
+  (set-fontset-font t 'unicode (font-spec :family font) nil 'prepend))
 
 (eval-and-compile
   (customize-set-variable
@@ -368,6 +372,7 @@
   :emacs>= 27.1
   :ensure t
   :config
+  (setq catppuccin-flavor 'latte)
   (load-theme 'catppuccin :no-confirm))
 
 (leaf prisma-ts-mode
@@ -498,8 +503,176 @@
       (ediff-files other-file current-file))))
 
 (leaf org
-  :bind (:org-mode-map
-         ("C-c t" . insert-current-time)))
+  :bind (("C-c a" . org-agenda)
+         (:org-mode-map
+          ("C-c t" . insert-current-time)))
+  :custom
+  (org-todo-keywords . '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)")))
+  (org-agenda-files . '(""))
+  (org-agenda-custom-commands
+   . '(("p" "private (main)" agenda ""
+        ((org-agenda-files '(""))))
+       ("m" "mpainternal (work)" agenda ""
+        ((org-agenda-files '("")))))))
+
+;;; Insert an org link to a pull request awaiting my review
+
+(require 'let-alist)
+
+(defvar gh-org-link-limit 50
+  "Maximum number of pull requests to fetch.")
+
+(defvar gh-org-link--process nil
+  "The running gh process, kept to prevent concurrent runs.")
+
+(defun gh-org-link--command ()
+  "Return the argument list passed to gh.
+`--review-requested=@me' matches both direct requests and ones
+that arrive through a team."
+  (list "gh" "search" "prs"
+        "--state=open"
+        "--review-requested=@me"
+        "--sort=updated"
+        (format "--limit=%d" gh-org-link-limit)
+        "--json" "number,title,url,repository,author,updatedAt,isDraft"))
+
+(defun gh-org-link--fetch-async (callback)
+  "Run gh asynchronously and call CALLBACK with the list of pull requests."
+  (when (process-live-p gh-org-link--process)
+    (user-error "gh is already running"))
+  (let ((stdout (generate-new-buffer " *gh-org-link-out*"))
+        (stderr (generate-new-buffer " *gh-org-link-err*")))
+    (setq gh-org-link--process
+          (make-process
+           :name "gh-org-link"
+           :buffer stdout
+           :stderr stderr
+           :noquery t
+           :connection-type 'pipe
+           :command (gh-org-link--command)
+           :sentinel
+           (lambda (proc _event)
+             (when (memq (process-status proc) '(exit signal))
+               (setq gh-org-link--process nil)
+               ;; Passing a buffer as :stderr makes Emacs create a pipe
+               ;; process behind the scenes.  Output can still be queued
+               ;; on it when this sentinel runs, so drain it first.
+               (let ((err-proc (get-buffer-process stderr)))
+                 (when (process-live-p err-proc)
+                   (accept-process-output err-proc 0.2))
+                 (when (process-live-p err-proc)
+                   (delete-process err-proc)))
+               (unwind-protect
+                   (if (zerop (process-exit-status proc))
+                       (funcall callback
+                                (with-current-buffer stdout
+                                  (goto-char (point-min))
+                                  (json-parse-buffer :object-type 'alist
+                                                     :array-type 'list)))
+                     (message "gh failed (exit %d): %s"
+                              (process-exit-status proc)
+                              (string-trim (with-current-buffer stderr
+                                             (buffer-string)))))
+                 (kill-buffer stdout)
+                 (kill-buffer stderr))))))))
+
+(defun gh-org-link--label (pr)
+  "Return the completion candidate string for PR."
+  (let-alist pr
+    (format "%s#%s  %s%s"
+            .repository.nameWithOwner
+            .number
+            (if (eq .isDraft t) "[draft] " "")
+            .title)))
+
+(defun gh-org-link--annotator (candidates)
+  "Return an annotation-function over CANDIDATES."
+  (lambda (label)
+    (when-let* ((pr (cdr (assoc label candidates))))
+      (let-alist pr
+        (propertize (format "  @%s  %s"
+                            .author.login
+                            (format-time-string "%Y-%m-%d"
+                                                (date-to-time .updatedAt)))
+                    'face 'shadow)))))
+
+(defun gh-org-link--table (candidates)
+  "Return a completion table over CANDIDATES keeping gh's ordering.
+Without this, vertico sorts the candidates alphabetically and the
+most recently updated pull requests no longer come first."
+  (lambda (string pred action)
+    (if (eq action 'metadata)
+        `(metadata (category . gh-pr)
+                   (annotation-function . ,(gh-org-link--annotator candidates))
+                   (display-sort-function . identity)
+                   (cycle-sort-function . identity))
+      (complete-with-action action candidates string pred))))
+
+(defun gh-org-link--org-link (pr)
+  "Return PR as an org-mode link string."
+  (require 'ol)
+  (let-alist pr
+    (org-link-make-string
+     .url
+     (format "%s#%s %s" .repository.nameWithOwner .number .title))))
+
+(defun gh-org-link--select-and-insert (prs marker)
+  "Prompt for one of PRS and insert its org link at MARKER."
+  (unwind-protect
+      (let ((candidates (mapcar (lambda (pr) (cons (gh-org-link--label pr) pr))
+                                prs)))
+        (unless candidates
+          (user-error "No pull request is awaiting your review"))
+        (unless (buffer-live-p (marker-buffer marker))
+          (user-error "The buffer to insert into has been killed"))
+        (let* ((label (completing-read "Review PR: "
+                                       (gh-org-link--table candidates) nil t))
+               (pr (cdr (assoc label candidates))))
+          (with-current-buffer (marker-buffer marker)
+            (goto-char marker)
+            (insert (gh-org-link--org-link pr)))))
+    (set-marker marker nil)))
+
+(defun gh-org-link-insert-review-pr ()
+  "Pick a pull request awaiting my review and insert it as an org link."
+  (interactive)
+  ;; Remember the position with a marker so that the link still lands
+  ;; where it was requested even if point moves while gh runs.
+  (let ((marker (point-marker)))
+    (message "gh: fetching pull requests awaiting review...")
+    (gh-org-link--fetch-async
+     (lambda (prs)
+       ;; Calling completing-read straight from the sentinel could
+       ;; interrupt an unrelated minibuffer session, so hand it back to
+       ;; the command loop through a timer first.
+       (run-at-time 0 nil #'gh-org-link--select-and-insert prs marker)))))
+
+(defun copy-org-link-as-markdown ()
+  "Copy the org link at point to the kill ring in Markdown format.
+A link with a description becomes \"[desc](url)\" and a bare link
+becomes \"<url>\", which is what the ox-md exporter would produce."
+  (interactive)
+  (require 'org-element)
+  (let ((link (org-element-context)))
+    (if (not (eq (org-element-type link) 'link))
+        (message "Not on an org link")
+      (let* ((url (org-element-property :raw-link link))
+             (begin (org-element-property :contents-begin link))
+             (description (and begin
+                               (buffer-substring-no-properties
+                                begin
+                                (org-element-property :contents-end link))))
+             (markdown (if description
+                           (format "[%s](%s)" description url)
+                         (format "<%s>" url))))
+        (kill-new markdown)
+        (message "Copied: %s" markdown)))))
+
+(leaf browse-url
+  :doc "Open links in the Windows default browser from WSL"
+  :custom
+  (browse-url-browser-function . 'browse-url-generic)
+  (browse-url-generic-program . "explorer.exe"))
 
 (leaf git-link
   :doc "Get the GitHub/Bitbucket/GitLab URL for a buffer location"
@@ -512,15 +685,47 @@
   :config
   (setq git-link-use-commit t))
 
+(leaf consult-wt
+  :vc (
+  :url "https://github.com/tomoya/consult-wt" )
+  :ensure t
+  :config
+  (setq consult-wt-find-function #'consult-fd)
+  (setq consult-wt-grep-function #'consult-ripgrep))
+
+(leaf agent-shell
+  :ensure t)
+
+(leaf prisma-mode
+  :vc (:url "https://github.com/pimeys/emacs-prisma-mode")
+  :ensure t)
+
+(leaf timecard
+  :load-path ""
+  :config
+  (setq timecard-endpoints '(""))
+  (setq timecard-token ""))
+
+(require 'timecard)
+
+(leaf ghreview
+  :load-path "")
+
+(require 'ghreview)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(blackout catppuccin-theme ddskk el-get hydra leaf-convert leaf-tree
-	      magit marginalia markdown-mode transient-dwim
-	      tree-sitter-langs treesit-auto vertico)))
+   '(agent-shell blackout catppuccin-theme ddskk el-get hydra
+		 leaf-convert leaf-tree magit marginalia markdown-mode
+		 obsidian prisma-mode transient-dwim tree-sitter-langs
+		 treesit-auto vertico yaml-mode))
+ '(package-vc-selected-packages
+   '((prisma-mode :url "")
+     (consult-wt :url ""))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
