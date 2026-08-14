@@ -419,4 +419,20 @@ return {
 			{ "<leader>fo", "<cmd>Fall oldfiles<cr>", mode = { "n" }, desc = "Find oldfiles", silent = true },
 		},
 	},
+	{
+		"nvim-treesitter/nvim-treesitter",
+		lazy = false,
+		build = ":TSUpdate",
+		opts = {},
+		config = function()
+			require("nvim-treesitter").install({ "prisma", "typescript", "tsx", "json" })
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = { "prisma", "typescript", "tsx", "json" },
+				callback = function()
+					vim.treesitter.start()
+					vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end,
+			})
+		end,
+	},
 }
