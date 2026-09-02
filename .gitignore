@@ -4,3 +4,5 @@ wsl2/emacs.d/*
 !wsl2/emacs.d/init.el
 result
 alacritty/catppuccin-mocha.toml
+herdr/*
+!herdr/config.toml
