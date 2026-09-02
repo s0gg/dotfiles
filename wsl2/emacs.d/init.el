@@ -10,6 +10,35 @@
 (setq ring-bell-function 'ignore)
 (setq display-warning-minimum-level :error)
 
+;; On a pgtk build, WSLg's clipboard bridge (the RDP backend of Weston) offers
+;; only `text/plain;charset=utf-8' and `STRING' as selection targets -- there
+;; is no `UTF8_STRING'.  Its `STRING' target carries the Windows ANSI code page
+;; (CP932 here), while Emacs decodes `STRING' as Latin-1, so text yanked from
+;; Windows comes out mojibake.  Ask for the UTF-8 MIME type first.
+;;
+;; An X11 build needs none of this -- XWayland normalises every target to
+;; `UTF8_STRING' -- and there asking for the MIME type is harmful: the request
+;; can come back as the TARGETS vector, which `gui-selection-value' then
+;; chokes on.  So apply it only when actually running on Wayland.
+(when (and (eq initial-window-system 'pgtk)
+           (not (equal (getenv "GDK_BACKEND") "x11")))
+  (setq x-select-request-type
+        '(text/plain\;charset=utf-8 UTF8_STRING COMPOUND_TEXT STRING)))
+
+;; Killing text makes the Emacs frame itself the owner of the Wayland
+;; selection, and WSLg only fetches the data lazily: the hand-off to the
+;; Windows clipboard is flaky, and whatever was killed disappears from it as
+;; soon as Emacs exits.  Push kills through wl-copy instead -- it leaves a
+;; small daemon owning the selection, which WSLg picks up every time and which
+;; outlives Emacs.
+(when (executable-find "wl-copy")
+  (defun s0gg/wl-copy (text)
+    "Put TEXT on the Wayland clipboard via wl-copy."
+    (let ((coding-system-for-write 'utf-8-unix))
+      (call-process-region text nil "wl-copy" nil 0 nil
+                           "--type" "text/plain;charset=utf-8")))
+  (setq interprogram-cut-function #'s0gg/wl-copy))
+
 (let ((font "HackGen Console NF"))
   (add-to-list 'default-frame-alist `(font . ,(concat font "-10")))
   (set-face-attribute 'default nil :family font :height 100)
@@ -250,15 +279,6 @@
   :emacs>= 28.1
   :ensure t)
 
-(leaf typescript-ts-mode
-  :doc "tree sitter support for TypeScript"
-  :tag "builtin"
-  :added "2025-11-15"
-  :mode (("\\.tsx\\'" . tsx-ts-mode)
-	 ("\\.ts\\'" . typescript-ts-mode))
-  :config
-  (setq typescript-ts-mode-indent-offset 2))
-
 (leaf treesit
   :doc "tree-sitter utilities"
   :tag "builtin" "languages" "tree-sitter" "treesit"
@@ -326,9 +346,8 @@
   :emacs>= 28.1
   :ensure t
   :after spinner markdown-mode lv eldoc
-  :config
-  (add-hook 'typescript-ts-mode-hook 'lsp)
-  (add-hook 'tsx-ts-mode-hook 'lsp))
+  :hook
+  ((typescript-ts-mode . lsp)))
 
 (leaf flycheck
   :doc "On-the-fly syntax checking."
@@ -699,6 +718,11 @@ becomes \"<url>\", which is what the ox-md exporter would produce."
 (leaf prisma-mode
   :vc (:url "https://github.com/pimeys/emacs-prisma-mode")
   :ensure t)
+
+(leaf terraform-mode
+  :ensure t
+  :hook
+  ((terraform-mode-hook . outline-minor-mode)))
 
 (leaf timecard
   :load-path ""
