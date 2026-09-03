@@ -66,12 +66,12 @@ in
     #     "./pkg/utils"
     #   ];
     # })
-    gcloud
-    pkgs.awscli2
+    # gcloud
+    # pkgs.awscli2
     pkgs.bat
-    pkgs.clojure-lsp
-    pkgs.cobra-cli
-    pkgs.dig
+    # pkgs.clojure-lsp
+    # pkgs.cobra-cli
+    # pkgs.dig
     pkgs.direnv
     pkgs.eza
     pkgs.fd
@@ -79,18 +79,18 @@ in
     pkgs.gh
     pkgs.ghq
     pkgs.git
-    pkgs.go
-    pkgs.gopls
-    pkgs.httpx
-    pkgs.k9s
-    pkgs.lua-language-server
-    pkgs.minikube
-    pkgs.opentofu
+    # pkgs.go
+    # pkgs.gopls
+    # pkgs.httpx
+    # pkgs.k9s
+    # pkgs.lua-language-server
+    # pkgs.minikube
+    # pkgs.opentofu
     pkgs.ripgrep
-    pkgs.subfinder
+    # pkgs.subfinder
     pkgs.tmux
-    pkgs.uv
-    pkgs.pipx
+    # pkgs.uv
+    # pkgs.pipx
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
