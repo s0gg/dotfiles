@@ -719,6 +719,9 @@ becomes \"<url>\", which is what the ox-md exporter would produce."
   :vc (:url "https://github.com/pimeys/emacs-prisma-mode")
   :ensure t)
 
+(leaf company
+  :ensure t)
+
 (leaf terraform-mode
   :ensure t
   :hook
