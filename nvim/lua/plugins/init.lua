@@ -26,39 +26,6 @@ return {
 		end,
 	},
 	{
-		"lambdalisue/gin.vim",
-		event = "VeryLazy",
-		config = function()
-			vim.keymap.set("n", "<space>gs", "<cmd>GinStatus<CR>", { silent = true })
-			vim.keymap.set("n", "<space>gl", "<cmd>GinLog<CR>", { silent = true })
-			vim.keymap.set("n", "<space>gc", "<cmd>GinChaperon<CR>", { silent = true })
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = "gin-status",
-				callback = function()
-					vim.keymap.set("n", "rr", "<Plug>(gin-action-restore)", { silent = true, buffer = true })
-					vim.keymap.set("n", "cc", "<cmd>Gin commit<cr>", { silent = true, buffer = true })
-				end,
-			})
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = "gin-log",
-				callback = function()
-					vim.keymap.set(
-						"n",
-						"if",
-						"<Plug>(gin-action-fixup:instant-fixup)",
-						{ silent = true, buffer = true }
-					)
-					vim.keymap.set(
-						"n",
-						"ir",
-						"<Plug>(gin-action-fixup:instant-reword)",
-						{ silent = true, buffer = true }
-					)
-				end,
-			})
-		end,
-	},
-	{
 		"stevearc/oil.nvim",
 		event = "VeryLazy",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -309,9 +276,6 @@ return {
 		end,
 	},
 	{
-		"vim-denops/denops.vim",
-	},
-	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
 		init = function()
@@ -371,23 +335,18 @@ return {
 	},
 	{
 		"nvim-telescope/telescope.nvim",
-		branch = "0.1.x",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		cmd = "Telescope",
-		opts = {},
-	},
-	{
-		"vim-fall/fall.vim",
-		dependencies = { "vim-denops/denops.vim" },
+		version = "*",
 		event = "VeryLazy",
-		keys = {
-			{ "<leader>ff", "<cmd>Fall file<cr>", mode = { "n" }, desc = "Find files", silent = true },
-			{ "<leader>fg", "<cmd>Fall rg<cr>", mode = { "n" }, desc = "Find ripgrep", silent = true },
-			{ "<leader>fb", "<cmd>Fall buffer<cr>", mode = { "n" }, desc = "Find buffer", silent = true },
-			{ "<leader>fh", "<cmd>Fall help<cr>", mode = { "n" }, desc = "Find help", silent = true },
-			{ "<leader>fl", "<cmd>Fall line<cr>", mode = { "n" }, desc = "Find line", silent = true },
-			{ "<leader>fo", "<cmd>Fall oldfiles<cr>", mode = { "n" }, desc = "Find oldfiles", silent = true },
-		},
+		dependencies = { "nvim-lua/plenary.nvim" },
+		config = function()
+			require("telescope").setup()
+			local builtin = require("telescope.builtin")
+			vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
+			vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
+			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
+			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
+			vim.keymap.set("n", "<leader>fl", builtin.current_buffer_fuzzy_find, { desc = "Telescope find line" })
+		end,
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
