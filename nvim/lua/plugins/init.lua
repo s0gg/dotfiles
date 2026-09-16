@@ -99,13 +99,33 @@ return {
 					},
 				},
 			})
+			lspconfig.config("emmylua_ls", {
+				cmd = { "emmylua_ls" },
+				filetypes = { "lua" },
+				workspace_required = true,
+				root_markers = { ".emmyrc.json", ".luarc.json", ".git" },
+				on_init = function(client)
+					client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
+						workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+					})
+				end,
+				settings = {
+					Lua = {
+						runtime = { version = "LuaJIT" },
+						workspace = { checkThirdParty = false },
+					},
+				},
+			})
+			lspconfig.enable("emmylua_ls")
 			lspconfig.config("rust_analyzer", {
 				capabilities = capabilities,
 			})
+			lspconfig.enable("rust_analyzer")
 			lspconfig.config("prismals", {
 				filetypes = { "prisma" },
 				capabilities = capabilities,
 			})
+			lspconfig.enable("prismals")
 			lspconfig.config("ts_ls", {
 				capabilities = capabilities,
 				single_file_support = false,
@@ -116,6 +136,7 @@ return {
 				cmd = { "tsc", "--lsp", "--stdio" },
 				filetypes = { "typescript", "tsx", "typescriptreact" },
 			})
+			lspconfig.enable("tsc")
 
 			-- vim.api.nvim_create_autocmd('BufReadPost', {
 			--   desc = "LSP: iccheck",
