@@ -367,7 +367,12 @@ return {
 			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
 			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
 			vim.keymap.set("n", "<leader>fl", builtin.current_buffer_fuzzy_find, { desc = "Telescope find line" })
-			vim.keymap.set("n", "<leader>tls", builtin.lsp_document_symbols, { desc = "Telescope lsp document symbols" })
+			vim.keymap.set(
+				"n",
+				"<leader>tls",
+				builtin.lsp_document_symbols,
+				{ desc = "Telescope lsp document symbols" }
+			)
 		end,
 	},
 	{
@@ -403,12 +408,12 @@ return {
 			})
 		end,
 	},
-    {
-        "windwp/nvim-ts-autotag",
-        event = "BufReadPre",
-        dependencies = { "nvim-treesitter/nvim-treesitter" },
-        config = function()
-            require("nvim-ts-autotag").setup({})
-        end
-    }
+	{
+		"windwp/nvim-ts-autotag",
+		event = "BufReadPre",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		config = function()
+			require("nvim-ts-autotag").setup({})
+		end,
+	},
 }
