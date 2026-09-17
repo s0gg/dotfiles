@@ -393,7 +393,7 @@ return {
 		build = ":TSUpdate",
 		opts = {},
 		config = function()
-			require("nvim-treesitter").install({ "prisma", "typescript", "tsx", "json" })
+			require("nvim-treesitter").install({ "prisma", "typescript", "tsx", "json", "lua" })
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = { "prisma", "typescript", "tsx", "json" },
 				callback = function()
@@ -403,4 +403,12 @@ return {
 			})
 		end,
 	},
+    {
+        "windwp/nvim-ts-autotag",
+        event = "BufReadPre",
+        dependencies = { "nvim-treesitter/nvim-treesitter" },
+        config = function()
+            require("nvim-ts-autotag").setup({})
+        end
+    }
 }
