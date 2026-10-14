@@ -416,4 +416,25 @@ return {
 			require("nvim-ts-autotag").setup({})
 		end,
 	},
+	{
+		"stevearc/aerial.nvim",
+		opts = {
+			layout = {
+				max_width = { 80, 0.3 },
+				default_direction = "prefer_right",
+			},
+			float = { relative = "editor" },
+			autojump = true,
+			close_on_select = true,
+		},
+		keys = {
+			{ "<leader>ao", "<cmd>AerialToggle<CR>", desc = "AerialToggle", { silent = true } },
+			{ "<leader>ano", "<cmd>AerialNavToggle<CR>", desc = "AerialNavToggle", { silent = true } },
+		},
+		event = "VeryLazy",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-tree/nvim-web-devicons",
+		},
+	},
 }
